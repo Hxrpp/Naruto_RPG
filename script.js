@@ -1,5 +1,11 @@
-const MAX_ATTRIBUTE = 4;
-const TOTAL_POINTS = 10;
+const rankSettings = {
+  "Genin": { maxAttribute: 4, totalPoints: 10 },
+  "Chūnin": { maxAttribute: 8, totalPoints: 20 },
+  "Jōnin": { maxAttribute: 12, totalPoints: 30 }
+};
+
+let MAX_ATTRIBUTE = 4;
+let TOTAL_POINTS = 10;
 
 const attributes = {
   FOR: 0,
@@ -617,6 +623,7 @@ function updatePointsDisplay() {
   const usedPoints = getUsedPoints();
 
   document.querySelector("#points-used").textContent = usedPoints;
+  document.querySelector("#points-total").textContent = TOTAL_POINTS;
 
   document.querySelectorAll(".increase").forEach((button) => {
     const attribute = button.dataset.attribute;
@@ -1330,6 +1337,9 @@ function exportCharacterSheet() {
 function resetForm() {
   form.reset();
 
+  MAX_ATTRIBUTE = rankSettings["Genin"].maxAttribute;
+  TOTAL_POINTS = rankSettings["Genin"].totalPoints;
+
   Object.keys(attributes).forEach((attribute) => {
     attributes[attribute] = 0;
     updateAttributeDisplay(attribute);
@@ -1374,6 +1384,26 @@ villageSelect.addEventListener("change", () => {
   kekkeiSection.classList.add("hidden");
   element2Select.value = "";
   kekkeiResult.classList.add("hidden");
+});
+
+document.querySelector("#rank").addEventListener("change", (event) => {
+  const rank = event.target.value;
+  const settings = rankSettings[rank];
+
+  if (settings) {
+    MAX_ATTRIBUTE = settings.maxAttribute;
+    TOTAL_POINTS = settings.totalPoints;
+
+    Object.keys(attributes).forEach((attr) => {
+      if (attributes[attr] > MAX_ATTRIBUTE) {
+        attributes[attr] = MAX_ATTRIBUTE;
+      }
+      updateAttributeDisplay(attr);
+    });
+
+    updatePointsDisplay();
+    updateResources();
+  }
 });
 
 spinClanButton.addEventListener("click", spinClan);

@@ -75,6 +75,99 @@ button:not(:disabled):active {
   transform: translateY(1px);
 }
 
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background: linear-gradient(180deg, #111722, #0c1018);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  text-align: center;
+  padding: 0 16px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.sidebar-logo h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--orange);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.sidebar-logo p {
+  margin: 4px 0 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 12px;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav a:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav a.active {
+  color: var(--orange);
+  background: rgba(232, 117, 50, 0.1);
+  border-left: 3px solid var(--orange);
+}
+
+.sidebar-nav a .nav-icon {
+  font-size: 1.1rem;
+  width: 22px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.main-content {
+  margin-left: 220px;
+  flex: 1;
+}
+
 .container {
   width: min(100% - 32px, 1050px);
   margin: 0 auto;
@@ -713,6 +806,45 @@ textarea {
 }
 
 @media (max-width: 700px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding: 12px;
+    overflow-x: auto;
+  }
+
+  .sidebar-logo {
+    display: none;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    width: 100%;
+    padding: 0;
+    gap: 4px;
+  }
+
+  .sidebar-nav a {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .sidebar-nav a.active {
+    border-left: none;
+    border-bottom: 3px solid var(--orange);
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
   .container {
     width: min(100% - 20px, 1050px);
     padding-top: 20px;
@@ -776,5 +908,281 @@ textarea {
   .attribute-button {
     width: 32px;
     height: 32px;
+  }
+}
+
+/* Página de Jutsus */
+
+.jutsu-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.jutsu-filters label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--orange);
+  color: var(--text);
+}
+
+.filter-btn.active {
+  border-color: var(--orange);
+  background: rgba(232, 117, 50, 0.15);
+  color: var(--orange);
+}
+
+.jutsu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.jutsu-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.jutsu-card:hover {
+  border-color: var(--orange);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.jutsu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.jutsu-name {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jutsu-element-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.jutsu-name h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.jutsu-name-en {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.jutsu-rank {
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.jutsu-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.jutsu-stat {
+  text-align: center;
+  padding: 10px 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.stat-value.damage {
+  color: #e85d32;
+}
+
+.stat-value.chakra {
+  color: var(--blue);
+}
+
+.stat-value.learn {
+  color: var(--yellow);
+  font-size: 0.95rem;
+}
+
+.jutsu-description {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.jutsu-empty {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.tabs-container {
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--panel);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+}
+
+.tab-btn.active {
+  background: rgba(232, 117, 50, 0.15);
+  color: var(--orange);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.jutsu-badges {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.jutsu-type-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.jutsu-clan-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value.clan-learn {
+  color: var(--yellow);
+  font-size: 0.85rem;
+}
+
+.clan-filter-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clan-filter-btn:hover {
+  border-color: var(--orange);
+  color: var(--text);
+}
+
+.clan-filter-btn.active {
+  border-color: var(--orange);
+  background: rgba(232, 117, 50, 0.15);
+  color: var(--orange);
+}
+
+@media (max-width: 600px) {
+  .jutsu-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .jutsu-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .jutsu-rank {
+    align-self: flex-start;
   }
 }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Naruto RPG - Lista de Jutsus</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <h2>Naruto RPG</h2>
+        <p>Sistema de Jogo</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html">
+          <span class="nav-icon">&#x1F4CB;</span> Ficha de Personagem
+        </a>
+        <a href="jutsus.html" class="active">
+          <span class="nav-icon">&#x1F525;</span> Lista de Jutsus
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        Naruto RPG v1.0
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <main class="container">
+
+        <header class="page-header">
+          <h1>Lista de Jutsus</h1>
+          <p>Todas as técnicas disponíveis no sistema</p>
+        </header>
+
+        <div class="tabs-container">
+          <div class="tabs">
+            <button type="button" class="tab-btn active" data-tab="geral">&#x1F525; Jutsus Gerais</button>
+            <button type="button" class="tab-btn" data-tab="clan">&#x2694; Jutsus de Clã</button>
+          </div>
+        </div>
+
+        <div id="tab-geral" class="tab-content active">
+          <section class="card">
+            <div class="jutsu-filters">
+              <label>Filtrar por elemento:</label>
+              <div class="filter-buttons">
+                <button type="button" class="filter-btn active" data-element="all">Todos</button>
+                <button type="button" class="filter-btn" data-element="Katon">&#x1F525; Katon</button>
+                <button type="button" class="filter-btn" data-element="Suiton">&#x1F4A7; Suiton</button>
+                <button type="button" class="filter-btn" data-element="Fūton">&#x1F4A8; Fūton</button>
+                <button type="button" class="filter-btn" data-element="Doton">&#x1F3D4; Doton</button>
+                <button type="button" class="filter-btn" data-element="Raiton">&#x26A1; Raiton</button>
+                <button type="button" class="filter-btn" data-element="outros">&#x2728; Outros</button>
+              </div>
+            </div>
+          </section>
+
+          <div id="jutsu-list" class="jutsu-list">
+          </div>
+        </div>
+
+        <div id="tab-clan" class="tab-content">
+          <section class="card">
+            <div class="jutsu-filters">
+              <label>Filtrar por vila:</label>
+              <div class="filter-buttons">
+                <button type="button" class="clan-filter-btn active" data-village="all">Todos</button>
+                <button type="button" class="clan-filter-btn" data-village="Konoha">&#x1F333; Konoha</button>
+                <button type="button" class="clan-filter-btn" data-village="Kazesuna">&#x1F3DC; Kazesuna</button>
+                <button type="button" class="clan-filter-btn" data-village="Kiri">&#x1F30A; Kiri</button>
+                <button type="button" class="clan-filter-btn" data-village="Kumo">&#x2601; Kumo</button>
+                <button type="button" class="clan-filter-btn" data-village="Iwa">&#x1F3D4; Iwa</button>
+              </div>
+            </div>
+          </section>
+
+          <div id="clan-jutsu-list" class="jutsu-list">
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="jutsus.js"></script>
+  <script src="clan-jutsus.js"></script>
+  <script>
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
