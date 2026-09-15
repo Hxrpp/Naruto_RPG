@@ -909,6 +909,133 @@ textarea {
     width: 32px;
     height: 32px;
   }
+
+  .page-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .page-header p {
+    font-size: 0.8rem;
+  }
+
+  .card h2 {
+    font-size: 1.2rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-with-image {
+    flex-direction: column;
+  }
+
+  .info-section {
+    width: 100%;
+  }
+
+  .character-image-preview {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .clan-info {
+    font-size: 0.85rem;
+  }
+
+  .attributes-list {
+    gap: 12px;
+  }
+
+  .attribute-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .attribute-header {
+    width: 100%;
+  }
+
+  .attribute-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .attribute-bar-container {
+    width: 100%;
+  }
+
+  .roulette-container {
+    flex-direction: column;
+  }
+
+  .roulette-display {
+    width: 100%;
+  }
+
+  .spin-button {
+    width: 100%;
+  }
+
+  .filter-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .jutsu-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .jutsu-rank {
+    align-self: flex-start;
+  }
+
+  .jutsu-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .clan-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .kekkei-header {
+    flex-direction: column;
+  }
+
+  .kekkei-elements {
+    flex-wrap: wrap;
+  }
+
+  .stage-item {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stage-name {
+    min-width: auto;
+  }
+
+  .stage-ability {
+    width: 100%;
+  }
+
+  .stage-exp {
+    align-self: flex-start;
+  }
 }
 
 /* Página de Jutsus */

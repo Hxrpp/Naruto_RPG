@@ -6,6 +6,7 @@ const rankSettings = {
 
 let MAX_ATTRIBUTE = 4;
 let TOTAL_POINTS = 10;
+let isLoading = false;
 
 const attributes = {
   FOR: 0,
@@ -15,22 +16,142 @@ const attributes = {
   CC: 0
 };
 
+function saveCharacterData() {
+  if (isLoading) return;
+  try {
+    const data = {
+      name: document.querySelector("#character-name").value,
+      player: document.querySelector("#player-name").value,
+      village: document.querySelector("#village").value,
+      clan: document.querySelector("#clan").value,
+      clanDisplay: document.querySelector("#clan-display").innerHTML,
+      clanHasResult: document.querySelector("#clan-display").classList.contains("result"),
+      element: document.querySelector("#element").value,
+      elementDisplay: document.querySelector("#element-display").innerHTML,
+      elementHasResult: document.querySelector("#element-display").classList.contains("result"),
+      rank: document.querySelector("#rank").value,
+      attributes: { ...attributes },
+      background: document.querySelector("#background").value,
+      notes: document.querySelector("#notes").value,
+      kekkeiVisible: !document.querySelector("#kekkei-section").classList.contains("hidden"),
+      element2: document.querySelector("#element2").value,
+      element2Display: document.querySelector("#element2-display").innerHTML,
+      element2HasResult: document.querySelector("#element2-display").classList.contains("result"),
+      kekkeiResultVisible: !document.querySelector("#kekkei-result").classList.contains("hidden"),
+      kekkeiName: document.querySelector("#kekkei-name").textContent,
+      characterImageData: characterImageData
+    };
+    localStorage.setItem("narutoRPGCharacter", JSON.stringify(data));
+  } catch (e) {
+    console.error("Erro ao salvar:", e);
+  }
+}
+
+function loadCharacterData() {
+  const saved = localStorage.getItem("narutoRPGCharacter");
+  if (!saved) return false;
+
+  try {
+    isLoading = true;
+    const data = JSON.parse(saved);
+
+    if (data.name) document.querySelector("#character-name").value = data.name;
+    if (data.player) document.querySelector("#player-name").value = data.player;
+
+    if (data.rank) {
+      document.querySelector("#rank").value = data.rank;
+      const settings = rankSettings[data.rank];
+      if (settings) {
+        MAX_ATTRIBUTE = settings.maxAttribute;
+        TOTAL_POINTS = settings.totalPoints;
+      }
+    }
+
+    if (data.village) {
+      document.querySelector("#village").value = data.village;
+    }
+
+    if (data.attributes) {
+      Object.keys(data.attributes).forEach((attr) => {
+        attributes[attr] = data.attributes[attr];
+        updateAttributeDisplay(attr);
+      });
+    }
+
+    if (data.clan && data.clanHasResult) {
+      document.querySelector("#clan").value = data.clan;
+      if (data.clanDisplay) {
+        document.querySelector("#clan-display").innerHTML = data.clanDisplay;
+        document.querySelector("#clan-display").classList.add("result");
+      }
+      showClanInfo(data.clan);
+    }
+
+    if (data.element && data.elementHasResult) {
+      document.querySelector("#element").value = data.element;
+      if (data.elementDisplay) {
+        document.querySelector("#element-display").innerHTML = data.elementDisplay;
+        document.querySelector("#element-display").classList.add("result");
+      }
+    }
+
+    if (data.kekkeiVisible && data.element) {
+      kekkeiSection.classList.remove("hidden");
+      if (data.element2 && data.element2HasResult) {
+        document.querySelector("#element2").value = data.element2;
+        if (data.element2Display) {
+          element2Display.innerHTML = data.element2Display;
+          element2Display.classList.add("result");
+        }
+      }
+      if (data.kekkeiResultVisible && data.kekkeiName) {
+        kekkeiResult.classList.remove("hidden");
+        kekkeiName.textContent = data.kekkeiName;
+      }
+    }
+
+    if (data.background) document.querySelector("#background").value = data.background;
+    if (data.notes) document.querySelector("#notes").value = data.notes;
+
+    if (data.characterImageData) {
+      characterImageData = data.characterImageData;
+      imagePreview.src = characterImageData;
+      imagePreview.classList.remove("hidden");
+      imagePlaceholder.classList.add("hidden");
+    }
+
+    updatePointsDisplay();
+    updateResources();
+
+    return true;
+  } catch (e) {
+    console.error("Erro ao carregar:", e);
+    return false;
+  } finally {
+    isLoading = false;
+  }
+}
+
+function clearSavedData() {
+  localStorage.removeItem("narutoRPGCharacter");
+}
+
 const clans = [
   {
     name: "Uchiha",
     village: "Konoha",
     description: "Clã nobre e temido, portador do Sharingan — um dōjutsu que permite copiar técnicas, prever movimentos e dominar ilusões. Conhecido pela afinidade com Katon e pela sua linha de sangue lendária.",
-    passive: "Após ver uma técnica uma vez, pode copiá-la. +1 NIN.",
+    passive: "Após ver uma técnica uma vez, pode copiá-la. +1 GEN.",
     techniques: "Sharingan, Katon: Gōkakyū no Jutsu, Katon: Hōsenka no Jutsu, Genjutsu: Kai.",
-    bonuses: { NIN: 1 }
+    bonuses: { GEN: 1 }
   },
   {
     name: "Hyūga",
     village: "Konoha",
     description: "Clã ancestral portador do Byakugan, que permite enxergar o sistema circulatório de chakra. Utilizam o Jūken (Gentle Fist) para bloquear pontos de chakra dos oponentes.",
-    passive: "Ataques Jūken bloqueiam 1 ponto de chakra do oponente. +1 GEN.",
+    passive: "Ataques Jūken bloqueiam 1 ponto de chakra do oponente. +1 NIN.",
     techniques: "Byakugan, Jūken, Hakke Rokujūyon Shō, Hakke Kūshō.",
-    bonuses: { GEN: 1 }
+    bonuses: { NIN: 1 }
   },
   {
     name: "Senju",
@@ -266,7 +387,7 @@ const clans = [
   },
   {
     name: "Chinoike",
-    village: "Kumo",
+    village: "other",
     description: "Clã proscrito portador do Ketsuryūgan, um dōjutsu que permite manipular o sangue. Considerados perigosos e caçados.",
     passive: "Pode manipular sangue de oponentes feridos. +1 com técnicas de sangue.",
     techniques: "Ketsuryūgan, Chikara no Suiheisen, Blood Containment.",
@@ -397,6 +518,18 @@ const villageSymbols = {
         stroke-linejoin="round"
       />
     </svg>
+  `,
+
+  other: `
+    <svg viewBox="0 0 100 100" aria-label="Símbolo de origem desconhecida">
+      <circle cx="50" cy="50" r="35" fill="none" stroke="#222" stroke-width="5"/>
+      <path
+        d="M 35 35 L 65 65 M 65 35 L 35 65"
+        stroke="#222"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
+    </svg>
   `
 };
 
@@ -492,6 +625,7 @@ function spinRoulette(displayElement, hiddenInput, options, callback) {
       spinElement2Button.disabled = false;
 
       if (callback) callback(finalOption);
+      saveCharacterData();
     }
   }, 100);
 }
@@ -598,6 +732,7 @@ function showClanInfo(clanName) {
     <h3>${selectedClan.name}</h3>
     <p>${selectedClan.description}</p>
     <p><strong>Passiva:</strong> ${selectedClan.passive}</p>
+    <p><strong>Técnicas:</strong> ${selectedClan.techniques}</p>
   `;
 }
 
@@ -622,7 +757,6 @@ function updatePointsDisplay() {
   const usedPoints = getUsedPoints();
 
   document.querySelector("#points-used").textContent = usedPoints;
-  document.querySelector("#points-total").textContent = TOTAL_POINTS;
 
   document.querySelectorAll(".increase").forEach((button) => {
     const attribute = button.dataset.attribute;
@@ -666,6 +800,7 @@ function changeAttribute(attribute, amount) {
   updateAttributeDisplay(attribute);
   updatePointsDisplay();
   updateResources();
+  saveCharacterData();
 }
 
 function handleImageUpload(event) {
@@ -703,6 +838,7 @@ function removeImage() {
 
   imagePreview.classList.add("hidden");
   imagePlaceholder.classList.remove("hidden");
+  saveCharacterData();
 }
 
 function getClanBonuses() {
@@ -816,7 +952,8 @@ function exportCharacterSheet() {
     Kazesuna: "Sunagakure",
     Kiri: "Kirigakure",
     Kumo: "Kumogakure",
-    Iwa: "Iwagakure"
+    Iwa: "Iwagakure",
+    other: "Desconhecida"
   };
 
   const elementNames = {
@@ -1361,6 +1498,7 @@ function resetForm() {
   kekkeiResult.classList.add("hidden");
 
   formMessage.textContent = "";
+  clearSavedData();
 }
 
 document.querySelectorAll(".increase").forEach((button) => {
@@ -1376,6 +1514,7 @@ document.querySelectorAll(".decrease").forEach((button) => {
 });
 
 villageSelect.addEventListener("change", () => {
+  if (isLoading) return;
   showEmptyClanInfo();
   clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
   clanDisplay.classList.remove("result", "spinning");
@@ -1383,6 +1522,7 @@ villageSelect.addEventListener("change", () => {
   kekkeiSection.classList.add("hidden");
   element2Select.value = "";
   kekkeiResult.classList.add("hidden");
+  saveCharacterData();
 });
 
 document.querySelector("#rank").addEventListener("change", (event) => {
@@ -1402,6 +1542,7 @@ document.querySelector("#rank").addEventListener("change", (event) => {
 
     updatePointsDisplay();
     updateResources();
+    saveCharacterData();
   }
 });
 
@@ -1411,6 +1552,14 @@ spinElement2Button.addEventListener("click", spinElement2);
 
 imageInput.addEventListener("change", handleImageUpload);
 removeImageButton.addEventListener("click", removeImage);
+
+document.querySelectorAll("input[type='text'], textarea").forEach((input) => {
+  input.addEventListener("input", saveCharacterData);
+});
+
+document.querySelectorAll("select").forEach((select) => {
+  select.addEventListener("change", saveCharacterData);
+});
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -1426,3 +1575,4 @@ Object.keys(attributes).forEach((attribute) => {
 updatePointsDisplay();
 updateResources();
 showEmptyClanInfo();
+loadCharacterData();
