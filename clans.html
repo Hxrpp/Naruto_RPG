@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Naruto RPG - Lista de Clãs</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <h2>Naruto RPG</h2>
+        <p>Sistema de Jogo</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html">
+          <span class="nav-icon">&#x1F4CB;</span> Ficha de Personagem
+        </a>
+        <a href="jutsus.html">
+          <span class="nav-icon">&#x1F525;</span> Lista de Jutsus
+        </a>
+        <a href="clans.html" class="active">
+          <span class="nav-icon">&#x2694;</span> Lista de Clãs
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        Naruto RPG v1.0
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <main class="container">
+
+        <header class="page-header">
+          <h1>Lista de Clãs</h1>
+          <p>Todos os clãs disponíveis no sistema</p>
+        </header>
+
+        <section class="card">
+          <div class="jutsu-filters">
+            <label>Filtrar por vila:</label>
+            <div class="filter-buttons">
+              <button type="button" class="clan-list-filter-btn active" data-village="Konoha">&#x1F333; Konoha</button>
+              <button type="button" class="clan-list-filter-btn" data-village="Kazesuna">&#x1F3DC; Kazesuna</button>
+              <button type="button" class="clan-list-filter-btn" data-village="Kiri">&#x1F30A; Kiri</button>
+              <button type="button" class="clan-list-filter-btn" data-village="Kumo">&#x2601; Kumo</button>
+              <button type="button" class="clan-list-filter-btn" data-village="Iwa">&#x1F3D4; Iwa</button>
+            </div>
+          </div>
+        </section>
+
+        <div id="clan-list" class="clan-list">
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="clans.js"></script>
+</body>
+</html>

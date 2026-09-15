@@ -1172,6 +1172,101 @@ textarea {
   color: var(--orange);
 }
 
+.clan-list-filter-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clan-list-filter-btn:hover {
+  border-color: var(--orange);
+  color: var(--text);
+}
+
+.clan-list-filter-btn.active {
+  border-color: var(--orange);
+  background: rgba(232, 117, 50, 0.15);
+  color: var(--orange);
+}
+
+.clan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.clan-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.clan-card:hover {
+  border-color: var(--orange);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.clan-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.clan-card-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.clan-card-village {
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.clan-card-description {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.clan-card-passive {
+  padding: 10px 14px;
+  background: rgba(232, 117, 50, 0.08);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.clan-card-passive strong {
+  color: var(--orange);
+}
+
+.clan-card-bonuses {
+  padding: 10px 14px;
+  background: rgba(75, 154, 203, 0.08);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.clan-card-bonuses strong {
+  color: var(--blue);
+}
+
 @media (max-width: 600px) {
   .jutsu-stats {
     grid-template-columns: repeat(2, 1fr);
