@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Naruto RPG - Kekkei Genkai</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <h2>Naruto RPG</h2>
+        <p>Sistema de Jogo</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html">
+          <span class="nav-icon">&#x1F4CB;</span> Ficha de Personagem
+        </a>
+        <a href="jutsus.html">
+          <span class="nav-icon">&#x1F525;</span> Lista de Jutsus
+        </a>
+        <a href="clans.html">
+          <span class="nav-icon">&#x2694;</span> Lista de Clãs
+        </a>
+        <a href="kekkei.html" class="active">
+          <span class="nav-icon">&#x1F441;</span> Lista de Kekkei Genkais
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        Naruto RPG v1.0
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <main class="container">
+
+        <header class="page-header">
+          <h1>Kekkei Genkai</h1>
+          <p>Habilidades de linha de sangue lendárias</p>
+        </header>
+
+        <div class="tabs-container">
+          <div class="tabs">
+            <button type="button" class="tab-btn active" data-tab="element">&#x2728; Elementos</button>
+            <button type="button" class="tab-btn" data-tab="doujutsu">&#x1F441; Dōjutsu</button>
+          </div>
+        </div>
+
+        <div id="tab-element" class="tab-content active">
+          <div id="element-kekkei-list" class="kekkei-list">
+          </div>
+        </div>
+
+        <div id="tab-doujutsu" class="tab-content">
+          <div id="doujutsu-list" class="kekkei-list">
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="kekkei.js"></script>
+  <script>
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>

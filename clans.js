@@ -3,15 +3,15 @@ const clanList = [
     name: "Uchiha",
     village: "Konoha",
     description: "Clã nobre e temido, portador do Sharingan — um dōjutsu que permite copiar técnicas, prever movimentos e dominar ilusões. Conhecido pela afinidade com Katon e pela sua linha de sangue lendária.",
-    passive: "Após ver uma técnica uma vez, pode copiá-la. +1 NIN.",
-    bonuses: { NIN: 1 }
+    passive: "Após ver uma técnica uma vez, pode copiá-la. +1 GEN.",
+    bonuses: { GEN: 1 }
   },
   {
     name: "Hyūga",
     village: "Konoha",
     description: "Clã ancestral portador do Byakugan, que permite enxergar o sistema circulatório de chakra. Utilizam o Jūken (Gentle Fist) para bloquear pontos de chakra dos oponentes.",
-    passive: "Ataques Jūken bloqueiam 1 ponto de chakra do oponente. +1 GEN.",
-    bonuses: { GEN: 1 }
+    passive: "Ataques Jūken bloqueiam 1 ponto de chakra do oponente. +1 NIN.",
+    bonuses: { NIN: 1 }
   },
   {
     name: "Senju",

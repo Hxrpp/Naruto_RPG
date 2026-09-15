@@ -1281,3 +1281,177 @@ textarea {
     align-self: flex-start;
   }
 }
+
+/* Página de Kekkei Genkai */
+
+.kekkei-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kekkei-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.kekkei-card:hover {
+  border-color: var(--orange);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.kekkei-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.kekkei-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kekkei-title h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--text);
+}
+
+.kekkei-name-en {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.kekkei-clan-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+}
+
+.kekkei-elements {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.element-badge {
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+}
+
+.kekkei-description {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.kekkei-special {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+}
+
+.kekkei-special strong {
+  color: var(--text);
+}
+
+.clan-restriction-badge {
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--orange);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.doujutsu-stages {
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+}
+
+.doujutsu-stages strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stage-item {
+  display: flex;
+  gap: 10px;
+  font-size: 0.85rem;
+  align-items: center;
+}
+
+.stage-name {
+  color: var(--orange);
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.stage-ability {
+  color: var(--muted);
+  flex: 1;
+}
+
+.stage-exp {
+  color: var(--yellow);
+  font-weight: 600;
+  font-size: 0.8rem;
+  background: rgba(233, 189, 85, 0.15);
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+.element-card {
+  background: linear-gradient(135deg, rgba(232, 117, 50, 0.05), rgba(75, 154, 203, 0.05));
+}
+
+.doujutsu-card {
+  background: var(--panel);
+}
+
+@media (max-width: 600px) {
+  .kekkei-header {
+    flex-direction: column;
+  }
+
+  .kekkei-elements {
+    flex-wrap: wrap;
+  }
+
+  .stage-item {
+    flex-direction: column;
+    gap: 2px;
+  }
+}
