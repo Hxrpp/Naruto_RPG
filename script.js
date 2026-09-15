@@ -732,7 +732,6 @@ function showClanInfo(clanName) {
     <h3>${selectedClan.name}</h3>
     <p>${selectedClan.description}</p>
     <p><strong>Passiva:</strong> ${selectedClan.passive}</p>
-    <p><strong>Técnicas:</strong> ${selectedClan.techniques}</p>
   `;
 }
 
