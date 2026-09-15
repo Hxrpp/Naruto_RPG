@@ -260,7 +260,7 @@ const clans = [
   },
   {
     name: "Chinoike",
-    village: "other",
+    village: "Kumo",
     description: "Clã proscrito portador do Ketsuryūgan, um dōjutsu que permite manipular o sangue. Considerados perigosos e caçados.",
     passive: "Pode manipular sangue de oponentes feridos. +1 com técnicas de sangue.",
     techniques: "Ketsuryūgan, Chikara no Suiheisen, Blood Containment.",
@@ -389,18 +389,6 @@ const villageSymbols = {
         stroke="#222"
         stroke-width="4"
         stroke-linejoin="round"
-      />
-    </svg>
-  `,
-
-  other: `
-    <svg viewBox="0 0 100 100" aria-label="Símbolo de origem desconhecida">
-      <circle cx="50" cy="50" r="35" fill="none" stroke="#222" stroke-width="5"/>
-      <path
-        d="M 35 35 L 65 65 M 65 35 L 35 65"
-        stroke="#222"
-        stroke-width="5"
-        stroke-linecap="round"
       />
     </svg>
   `
@@ -822,8 +810,7 @@ function exportCharacterSheet() {
     Kazesuna: "Sunagakure",
     Kiri: "Kirigakure",
     Kumo: "Kumogakure",
-    Iwa: "Iwagakure",
-    other: "Desconhecida"
+    Iwa: "Iwagakure"
   };
 
   const elementNames = {
