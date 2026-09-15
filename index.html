@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Naruto RPG - Ficha de Personagem</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="page-header">
+      <h1>Naruto RPG</h1>
+      <p>Ficha de personagem ninja</p>
+    </header>
+
+    <form id="character-form">
+
+      <section class="card">
+        <h2>Identificação</h2>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="character-name">Nome do personagem</label>
+            <input
+              type="text"
+              id="character-name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="player-name">Nome do jogador</label>
+            <input
+              type="text"
+              id="player-name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="village">Vila de origem</label>
+            <select id="village" required>
+              <option value="">Selecione uma vila</option>
+              <option value="Konoha">Konohagakure</option>
+              <option value="Kazesuna">Sunagakure</option>
+              <option value="Kiri">Kirigakure</option>
+              <option value="Kumo">Kumogakure</option>
+              <option value="Iwa">Iwagakure</option>
+              <option value="other">Outras origens</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Clã</label>
+            <div class="roulette-container">
+              <div id="clan-display" class="roulette-display">
+                <span class="roulette-placeholder">Gire para descobrir</span>
+              </div>
+              <input type="hidden" id="clan" required>
+              <button type="button" id="spin-clan" class="spin-button">
+                <span class="spin-icon">&#x27F3;</span> Girar
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Elemento principal</label>
+            <div class="roulette-container">
+              <div id="element-display" class="roulette-display">
+                <span class="roulette-placeholder">Gire para descobrir</span>
+              </div>
+              <input type="hidden" id="element" required>
+              <button type="button" id="spin-element" class="spin-button">
+                <span class="spin-icon">&#x27F3;</span> Girar
+              </button>
+            </div>
+          </div>
+
+          <div id="kekkei-section" class="form-group hidden">
+            <label>Elemento secundário</label>
+            <div class="roulette-container">
+              <div id="element2-display" class="roulette-display">
+                <span class="roulette-placeholder">Gire para descobrir</span>
+              </div>
+              <input type="hidden" id="element2" name="element2">
+              <button type="button" id="spin-element2" class="spin-button">
+                <span class="spin-icon">&#x27F3;</span> Girar
+              </button>
+            </div>
+            <div id="kekkei-result" class="kekkei-result hidden">
+              <strong>Kekkei Genkai:</strong> <span id="kekkei-name"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="rank">Patente</label>
+            <select id="rank" required>
+              <option value="">Selecione uma patente</option>
+              <option value="Genin">Genin</option>
+              <option value="Chūnin">Chūnin</option>
+              <option value="Jōnin">Jōnin</option>
+            </select>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Imagem do personagem</h2>
+
+        <div class="image-upload">
+
+          <div class="image-preview-container">
+            <img
+              id="character-image-preview"
+              class="character-image-preview hidden"
+              alt="Imagem do personagem"
+            >
+
+            <div id="image-placeholder" class="image-placeholder">
+              <span>Imagem ninja</span>
+              <small>Nenhuma imagem selecionada</small>
+            </div>
+          </div>
+
+          <div class="image-controls">
+            <label for="character-image" class="upload-label">
+              Escolher imagem
+            </label>
+
+            <input
+              type="file"
+              id="character-image"
+              accept="image/png, image/jpeg, image/webp"
+            >
+
+            <p class="upload-help">
+              Formatos aceitos: PNG, JPG e WEBP.
+            </p>
+
+            <button
+              type="button"
+              id="remove-image-button"
+              class="small-button"
+            >
+              Remover imagem
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Informações do clã</h2>
+
+        <div id="clan-info" class="clan-info empty">
+          Gire a roleta do clã para visualizar as informações.
+        </div>
+      </section>
+
+      <section class="card">
+
+        <div class="section-heading">
+          <div>
+            <h2>Atributos</h2>
+            <p>Distribua os 10 pontos disponíveis.</p>
+          </div>
+
+          <div class="points-counter">
+            <span id="points-used">0</span>
+            <span>/ 10 pontos</span>
+          </div>
+        </div>
+
+        <div class="attributes-list">
+
+          <div class="attribute-row">
+            <div class="attribute-header">
+              <label>Força (FOR)</label>
+              <span id="FOR-value">0</span>
+            </div>
+
+            <div class="attribute-controls">
+              <button type="button" class="attribute-button decrease" data-attribute="FOR">−</button>
+
+              <div class="attribute-bar">
+                <div id="FOR-bar" class="attribute-bar-fill"></div>
+              </div>
+
+              <button type="button" class="attribute-button increase" data-attribute="FOR">+</button>
+            </div>
+          </div>
+
+          <div class="attribute-row">
+            <div class="attribute-header">
+              <label>Agilidade (AGI)</label>
+              <span id="AGI-value">0</span>
+            </div>
+
+            <div class="attribute-controls">
+              <button type="button" class="attribute-button decrease" data-attribute="AGI">−</button>
+
+              <div class="attribute-bar">
+                <div id="AGI-bar" class="attribute-bar-fill"></div>
+              </div>
+
+              <button type="button" class="attribute-button increase" data-attribute="AGI">+</button>
+            </div>
+          </div>
+
+          <div class="attribute-row">
+            <div class="attribute-header">
+              <label>Ninjutsu (NIN)</label>
+              <span id="NIN-value">0</span>
+            </div>
+
+            <div class="attribute-controls">
+              <button type="button" class="attribute-button decrease" data-attribute="NIN">−</button>
+
+              <div class="attribute-bar">
+                <div id="NIN-bar" class="attribute-bar-fill"></div>
+              </div>
+
+              <button type="button" class="attribute-button increase" data-attribute="NIN">+</button>
+            </div>
+          </div>
+
+          <div class="attribute-row">
+            <div class="attribute-header">
+              <label>Genjutsu (GEN)</label>
+              <span id="GEN-value">0</span>
+            </div>
+
+            <div class="attribute-controls">
+              <button type="button" class="attribute-button decrease" data-attribute="GEN">−</button>
+
+              <div class="attribute-bar">
+                <div id="GEN-bar" class="attribute-bar-fill"></div>
+              </div>
+
+              <button type="button" class="attribute-button increase" data-attribute="GEN">+</button>
+            </div>
+          </div>
+
+          <div class="attribute-row">
+            <div class="attribute-header">
+              <label>Controle de Chakra (CC)</label>
+              <span id="CC-value">0</span>
+            </div>
+
+            <div class="attribute-controls">
+              <button type="button" class="attribute-button decrease" data-attribute="CC">−</button>
+
+              <div class="attribute-bar">
+                <div id="CC-bar" class="attribute-bar-fill"></div>
+              </div>
+
+              <button type="button" class="attribute-button increase" data-attribute="CC">+</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Recursos</h2>
+
+        <div class="resources-grid">
+
+          <div class="resource-box">
+            <span class="resource-label">Vida</span>
+            <strong id="health-value">20</strong>
+            <small>20 + FOR × 5</small>
+          </div>
+
+          <div class="resource-box">
+            <span class="resource-label">Chakra</span>
+            <strong id="chakra-value">20</strong>
+            <small>20 + CC × 5</small>
+          </div>
+
+          <div class="resource-box">
+            <span class="resource-label">Defesa</span>
+            <strong id="defense-value">10</strong>
+            <small>10 + AGI</small>
+          </div>
+
+          <div class="resource-box">
+            <span class="resource-label">Iniciativa</span>
+            <strong>1d20 + AGI</strong>
+            <small>Rolagem de iniciativa</small>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>História do personagem</h2>
+
+        <div class="form-group">
+          <label for="background">
+            Conte um pouco sobre o passado do personagem.
+          </label>
+
+          <textarea
+            id="background"
+            rows="6"
+          ></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Observações</h2>
+
+        <div class="form-group">
+          <label for="notes">
+            Técnicas, equipamentos e outras anotações.
+          </label>
+
+          <textarea
+            id="notes"
+            rows="4"
+          ></textarea>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button type="submit" class="primary-button">
+          Exportar ficha
+        </button>
+
+        <button type="button" id="reset-button" class="secondary-button">
+          Limpar ficha
+        </button>
+      </div>
+
+      <p id="form-message" class="form-message" role="status"></p>
+
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
