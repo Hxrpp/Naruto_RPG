@@ -3,224 +3,224 @@ const clanList = [
     name: "Uchiha",
     village: "Konoha",
     description: "Clã nobre e temido, portador do Sharingan — um dōjutsu que permite copiar técnicas, prever movimentos e dominar ilusões. Conhecido pela afinidade com Katon e pela sua linha de sangue lendária.",
-    passive: "Após ver uma técnica uma vez, pode copiá-la. +1 GEN.",
+    passive: "Ganha mais EXP do que o normal. Pode iniciar com o elemento Katon como seu elemento principal caso queira.",
     bonuses: { GEN: 1 }
   },
   {
     name: "Hyūga",
     village: "Konoha",
     description: "Clã ancestral portador do Byakugan, que permite enxergar o sistema circulatório de chakra. Utilizam o Jūken (Gentle Fist) para bloquear pontos de chakra dos oponentes.",
-    passive: "Ataques Jūken bloqueiam 1 ponto de chakra do oponente. +1 NIN.",
+    passive: "Ataques Jūken bloqueiam 1 ponto de chakra do oponente.",
     bonuses: { NIN: 1 }
   },
   {
     name: "Senju",
     village: "Konoha",
     description: "Clã fundador de Konohagakure, conhecido como 'os que possuem todas as habilidades'. Versáteis em ninjutsu, taijutsu e genjutsu, com afinidade especial pela madeira.",
-    passive: "Pode aprender técnicas de qualquer elemento. +1 a todos os atributos em florestas.",
+    passive: "Possui afinidade com todos elementos. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
     bonuses: { FOR: 1, AGI: 1, NIN: 1, GEN: 1, CC: 1 }
   },
   {
     name: "Uzumaki",
     village: "Konoha",
     description: "Clã de longevidade e reservas de chakra monstruosas. Mestres do Fūinjutsu (arte do selamento), seus corpos resistem a venenos e doenças.",
-    passive: "+10 HP e +5 Chakra. Pode usar Fūinjutsu para prender oponentes.",
-    bonuses: { HP: 10, Chakra: 5 }
+    passive: "Gasta metade de EXP necessário para aprender e criar ténicas de Fūinjutsu.",
+    bonuses: { Chakra: 15 }
   },
   {
     name: "Nara",
     village: "Konoha",
     description: "Clã de gênios estratégicos que controlam sombras. Seus membros são preguiçosos por natureza, mas brilham em situações que exigem raciocínio tático.",
-    passive: "Pode congelar um oponente na sombra por 1 turno. +1 GEN na escuridão.",
-    bonuses: { GEN: 1 }
+    passive: "Maior resistência contra Genjutsus.",
+    bonuses: { CC: 1 }
   },
   {
     name: "Akimichi",
     village: "Konoha",
     description: "Clã que converte calorias em chakra para expandir partes do corpo. Seus golpes são devastadores, mas consomem muita energia.",
-    passive: "+5 HP por ponto em FOR. Pode converter chakra em calorias para técnicas.",
+    passive: "Bônus de HP por ponto em FOR. Pode converter chakra em calorias para técnicas.",
     bonuses: { HP: 10 }
   },
   {
     name: "Yamanaka",
     village: "Konoha",
     description: "Clã de comunicadores psíquicos especializados em transferência de mente e invasão mental. Trabalham como suporte em equipes ninja.",
-    passive: "Pode ler a próxima ação do oponente. +1 GEN.",
+    passive: "Pode ler a próxima ação do oponente.",
     bonuses: { GEN: 1 }
   },
   {
     name: "Aburame",
     village: "Konoha",
     description: "Clã que cria insetos ninja dentro do próprio corpo em simbiose. Os insetos se alimentam de chakra e podem rastrear, atacar e criar barreiras.",
-    passive: "Insetos rastreamentam inimigos escondidos. +1 a detecção.",
+    passive: "Insetos rastreamentam inimigos escondidos.",
     bonuses: { NIN: 1 }
   },
   {
     name: "Inuzuka",
     village: "Konoha",
     description: "Clã de caçadores que lutam em dupla com cães ninja. Seus sentidos são aguçados e podem farejar odores de quilômetros de distância.",
-    passive: "Luta com parceiro canino. +1 AGI quando ataca em grupo.",
+    passive: "Luta com parceiro canino. Bônus quando ataca em grupo.",
     bonuses: { AGI: 1 }
   },
   {
     name: "Sarutobi",
     village: "Konoha",
     description: "Família real de Konoha, herdade do Terceiro Hokage. Conhecida por dominar múltiplos elementos e técnicas de fogo com maestria.",
-    passive: "Pode usar qualquer elemento. +1 a todos os atributos.",
+    passive: "Ganha mais EXP do que o normal. Pode iniciar com o elemento Katon como seu elemento principal caso queira.",
     bonuses: { FOR: 1, AGI: 1, NIN: 1, GEN: 1, CC: 1 }
   },
   {
     name: "Shimura",
     village: "Konoha",
     description: "Família disciplinada com tradição em taijutsu e códigos de honra. Membros são leais e seguiram o caminho shinobi com dedicação.",
-    passive: "+1 FOR em combate corpo a corpo. Pode contra-atacar após ser atingido.",
+    passive: "Bônus em combate corpo a corpo. Pode iniciar com o elemento Fūton como seu elemento principal caso queira.",
     bonuses: { FOR: 1 }
   },
   {
     name: "Hatake",
     village: "Konoha",
     description: "Família de ninjas talentosos e adaptáveis, mais famosa por Kakashi, o Copy Ninja. Dominam múltiplas técnicas com facilidade.",
-    passive: "Pode copiar 1 técnica por batalha. +1 NIN.",
-    bonuses: { NIN: 1 }
+    passive: "Gasta metade de EXP necessário para aprender e criar ténicas no geral.",
+    bonuses: { NIN: 2 }
   },
   {
     name: "Kurama",
     village: "Konoha",
     description: "Clã especialista em genjutsu e técnicas ilusórias avançados. Seus membros possuem um olhar penetrante que confunde oponentes.",
-    passive: "+2 GEN. Ilusões duram turnos extras.",
+    passive: "Ilusões duram turnos extras.",
     bonuses: { GEN: 2 }
   },
   {
     name: "Kazekage",
     village: "Kazesuna",
     description: "Clã real de Sunagakure, ligado diretamente aos Kazekage. Possui domínio absoluto sobre a areia, que se move por conta própria para proteger seu mestre.",
-    passive: "Areia bloqueia automaticamente 1 ataque por turno. +2 DEF.",
+    passive: "Areia bloqueia automaticamente 1 ataque por turno.",
     bonuses: { DEF: 2 }
   },
   {
     name: "Shirogane",
     village: "Kazesuna",
     description: "Clã de marionetistas de Sunagakure, mestres na arte Kugutsu. Utilizam bonecos armados com lâminas venenosas e mecanismos mortíferos.",
-    passive: "Pode usar marionete como membro extra da equipe. +1 a técnicas com kugutsu.",
+    passive: "Pode usar marionete como membro extra da equipe.",
     bonuses: { NIN: 1 }
   },
   {
     name: "Hōki",
     village: "Kazesuna",
     description: "Família de rastreadores do deserto, especializada em localizar alvos através de tempestades de areia e terrenos áridos.",
-    passive: "+1 NIN em terrenos arenosos. Pode rastrear em tempestades de areia.",
+    passive: "Bônus em terrenos arenosos. Pode rastrear pessoas e seres em ambientes de areia. Pode iniciar com o elemento Fūton como seu elemento principal caso queira.",
     bonuses: { NIN: 1 }
   },
   {
     name: "Fūma",
     village: "Kazesuna",
     description: "Clã nômade conhecido por armas giratórias e técnicas de vento. Possuem uma tradição de guerreiros independentes.",
-    passive: "Dano crítico com fūma shuriken. +1 com armas arremessáveis.",
+    passive: "Dano crítico com fūma shuriken. Bônus com armas arremessáveis.",
     bonuses: { AGI: 1 }
   },
   {
     name: "Hōzuki",
     village: "Kiri",
     description: "Clã que domina a técnica de liquefação corporal, tornando-se água para desviar de ataques. Afinidade natural com Suiton.",
-    passive: "Pode tornar-se líquido por 1 turno para desviar. +1 com Suiton.",
+    passive: "Pode tornar-se líquido por 1 turno para desviar. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
     bonuses: { NIN: 1 }
   },
   {
     name: "Hoshigaki",
     village: "Kiri",
     description: "Clã de guerreiros brutais com força física devastadora e afinidade com técnicas aquáticas. Conhecidos por seus dentes afiados.",
-    passive: "+1 FOR em água. Pode respirar debaixo d'água.",
+    passive: "Bônus com Suiton. Pode respirar debaixo d'água. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
     bonuses: { FOR: 1 }
   },
   {
     name: "Yuki",
     village: "Kiri",
     description: "Clã portador do Hyōton (Kekkei Genkai), que combina Suiton e Fūton para criar gelo. Perseguidos por seu poder proibido.",
-    passive: "Pode congelar água ao contato. +1 com técnicas de gelo.",
+    passive: "Pode congelar água ao contato. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
     bonuses: { NIN: 1 }
   },
   {
     name: "Kaguya",
     village: "Kiri",
     description: "Clã ancestral que manipula os ossos do próprio corpo, tornando-os mais duros que aço. Origem dos lendários Otsutsuki.",
-    passive: "Ossos mais duros que aço. +1 com técnicas ósseas.",
+    passive: "Ossos mais duros que aço.",
     bonuses: { FOR: 1 }
   },
   {
     name: "Karatachi",
     village: "Kiri",
     description: "Família ligada à política e ao governo de Kirigakure. Membros ocupam posições de liderança e comando militar.",
-    passive: "Pode inspirar aliados. +1 a habilidades de liderança.",
+    passive: "Pode buffar status de aliados por um curto período de tempo. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
     bonuses: { GEN: 1 }
   },
   {
     name: "Kurosuki",
     village: "Kiri",
     description: "Clã de combatentes resistentes de Kirigakure, especializados em taijutsu e resistência a venenos.",
-    passive: "+1 FOR em taijutsu. Resistência a venenos.",
-    bonuses: { FOR: 1 }
+    passive: "Resistência a venenos.",
+    bonuses: { FOR: 2 }
   },
   {
     name: "Yotsuki",
     village: "Kumo",
     description: "Clã de guerreiros brutais de Kumogakure, conhecidos por força física descomunal e técnicas de Raiton devastadoras.",
-    passive: "+1 FOR e +1 Raiton. Pode canalizar relâmpago nos punhos.",
+    passive: "Pode canalizar relâmpago nos punhos.",
     bonuses: { FOR: 1, NIN: 1 }
   },
   {
     name: "Aemi",
     village: "Kumo",
     description: "Clã de espadachins de Kumogakure que canalizam Raiton através de suas lâminas. Conhecidos por cortes que rasgam os céus.",
-    passive: "Lâminas carregadas com relâmpago causam dano extra. +1 AGI.",
+    passive: "Lâminas carregadas com relâmpago causam dano extra.",
     bonuses: { AGI: 1 }
   },
   {
     name: "Bōsō",
     village: "Kumo",
     description: "Clã de rastreadores de Kumogakure que utilizam sensores de chakra de longo alcance. Podem detectar inimigos a quilômetros de distância.",
-    passive: "Detecta inimigos escondidos em um raio amplo. +1 GEN.",
+    passive: "Detecta inimigos escondidos em um raio amplo.",
     bonuses: { GEN: 1 }
   },
   {
     name: "Raijin",
     village: "Kumo",
     description: "Clã lendário de Kumogakure, ancestral dos Raikage. Membros possuem corpos que canalizam relâmpago, concedendo velocidade e força sobre-humanas.",
-    passive: "Modo relâmpago: +2 FOR e +1 AGI por 1 turno. Recarga de 3 turnos.",
+    passive: "Modo relâmpago por 1 turno. Recarga de 3 turnos.",
     bonuses: { FOR: 2, AGI: 1 }
   },
   {
     name: "Chinoike",
     village: "Kumo",
     description: "Clã proscrito portador do Ketsuryūgan, um dōjutsu que permite manipular o sangue. Considerados perigosos e caçados.",
-    passive: "Pode manipular sangue de oponentes feridos. +1 com técnicas de sangue.",
+    passive: "Pode manipular sangue de oponentes feridos.",
     bonuses: { GEN: 1 }
   },
   {
     name: "Kamizuru",
     village: "Iwa",
     description: "Clã de Iwagakure que utiliza abelhas ninja em combate. Mestres do rastreamento e controle de enxames.",
-    passive: "Pode invocar abelhas para rastrear/atacar. +1 com técnicas de insetos.",
+    passive: "Pode invocar abelhas para rastrear e atacar.",
     bonuses: { NIN: 1 }
   },
   {
     name: "Ganryū",
     village: "Iwa",
     description: "Clã de guerreiros pesados de Iwagakure que utilizam armaduras de pedra e técnicas de gravidade. Seus golpes esmagam tudo ao redor.",
-    passive: "Armadura de pedra absorve 1 ataque físico. +2 FOR.",
+    passive: "Podem criar técnicas que manipulam sua própria gravidade. Pode iniciar com o elemento Doton como seu elemento principal caso queira.",
     bonuses: { FOR: 2 }
   },
   {
     name: "Kōsetsu",
     village: "Iwa",
     description: "Clã de artesãos e construtores de Iwagakure especializados em criação de golems e estátuas de pedra animadas por chakra.",
-    passive: "Pode criar golem de pedra para defender. +1 DEF.",
+    passive: "Pode criar golem de pedra para defender.",
     bonuses: { DEF: 1 }
   },
   {
     name: "Tetsuban",
     village: "Iwa",
     description: "Clã de mineradores e ferreiros de Iwagakure que manipulam minerais e metais encontrados nas montanhas. Suas técnicas controlam o ferro e a pedra.",
-    passive: "Manipula minerais do ambiente para criar barreiras. +1 NIN.",
+    passive: "Manipula minerais do ambiente para criar barreiras.",
     bonuses: { NIN: 1 }
   }
 ];
