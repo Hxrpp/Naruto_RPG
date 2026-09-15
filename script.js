@@ -666,7 +666,10 @@ function spinElement2() {
     if (selected === "Não Possui") {
       kekkeiResult.classList.add("hidden");
     } else {
-      const kekkei = getKekkeiGenkai(primaryElement, selected);
+      let kekkei = getKekkeiGenkai(primaryElement, selected);
+      if (kekkei === "Deiton" && clanSelect.value === "Senju") {
+        kekkei = "Mokuton";
+      }
       if (kekkei) {
         kekkeiName.textContent = kekkei;
         kekkeiResult.classList.remove("hidden");
@@ -872,9 +875,12 @@ function buildCharacterSheet() {
   const bonuses = getClanBonuses();
   const primaryElement = elementSelect.value;
   const secondaryElement = element2Select.value || "Não Possui";
-  const kekkeiGenkai = secondaryElement !== "Não Possui"
+  let kekkeiGenkai = secondaryElement !== "Não Possui"
     ? getKekkeiGenkai(primaryElement, secondaryElement) || "Nenhum"
     : "Nenhum";
+  if (kekkeiGenkai === "Deiton" && clanSelect.value === "Senju") {
+    kekkeiGenkai = "Mokuton";
+  }
 
   return {
     name: document.querySelector("#character-name").value.trim(),
