@@ -73,6 +73,7 @@ function loadCharacterData() {
     if (data.village) {
       document.querySelector("#village").value = data.village;
       populateClanSelect();
+      updateClanSpinState();
     }
 
     if (data.attributes) {
@@ -628,7 +629,7 @@ function spinRoulette(displayElement, hiddenInput, options, callback) {
       displayElement.classList.remove("spinning");
       displayElement.classList.add("result");
       hiddenInput.value = finalOption;
-      spinClanButton.disabled = false;
+      updateClanSpinState();
       spinElementButton.disabled = false;
       spinElement2Button.disabled = !elementSelect.value;
 
@@ -707,6 +708,10 @@ function updateKekkeiSection() {
   element2ManuelSelect.disabled = !selectedElement;
   spinElement2Button.disabled = !selectedElement;
   populateElement2Select();
+}
+
+function updateClanSpinState() {
+  spinClanButton.disabled = !villageSelect.value;
 }
 
 function applyKekkeiResult(primaryElement, secondaryElement) {
@@ -1564,11 +1569,12 @@ function resetForm() {
   updateResources();
   removeImage();
 
-  clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+  clanDisplay.innerHTML = `<span class="roulette-placeholder">Escolha sua vila primeiro</span>`;
   clanDisplay.classList.remove("result", "spinning");
   clanSelect.value = "";
   clanManuelSelect.value = "";
   populateClanSelect();
+  updateClanSpinState();
   elementDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
   elementDisplay.classList.remove("result", "spinning");
   elementSelect.value = "";
@@ -1594,7 +1600,7 @@ document.querySelectorAll(".decrease").forEach((button) => {
 
 villageSelect.addEventListener("change", () => {
   if (isLoading) return;
-  clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+  clanDisplay.innerHTML = `<span class="roulette-placeholder">Escolha sua vila primeiro</span>`;
   clanDisplay.classList.remove("result", "spinning");
   clanSelect.value = "";
   clanManuelSelect.value = "";
@@ -1602,6 +1608,7 @@ villageSelect.addEventListener("change", () => {
   element2Select.value = "";
   element2ManuelSelect.value = "";
   kekkeiResult.classList.add("hidden");
+  updateClanSpinState();
   saveCharacterData();
 });
 
@@ -1627,7 +1634,7 @@ clanManuelSelect.addEventListener("change", () => {
   if (value) {
     setRouletteResult(clanDisplay, value);
   } else {
-    clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+    clanDisplay.innerHTML = `<span class="roulette-placeholder">Escolha sua vila primeiro</span>`;
     clanDisplay.classList.remove("result", "spinning");
   }
 });
@@ -1692,4 +1699,5 @@ updateResources();
 populateClanSelect();
 populateElementSelect();
 updateKekkeiSection();
+updateClanSpinState();
 loadCharacterData();
