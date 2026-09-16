@@ -82,62 +82,66 @@
 
           <div class="form-group">
             <label>Clã</label>
-            <div class="roulette-container">
-              <div id="clan-display" class="roulette-display">
-                <span class="roulette-placeholder">Escolha sua vila primeiro</span>
+            <div class="roulette-box">
+              <div class="roulette-row">
+                <div id="clan-display" class="roulette-display" data-target="clan-select">
+                  <span class="roulette-placeholder">Escolha sua vila primeiro</span>
+                </div>
+                <button type="button" id="spin-clan" class="spin-button" title="Girar" aria-label="Girar">
+                  <span class="spin-icon">&#x27F3;</span>
+                </button>
               </div>
               <input type="hidden" id="clan" required>
-              <button type="button" id="spin-clan" class="spin-button">
-                <span class="spin-icon">&#x27F3;</span> Girar
-              </button>
-            </div>
-            <div class="select-or">
-              <span>ou escolha:</span>
-              <select id="clan-select">
-                <option value="">Selecione um clã</option>
-              </select>
+              <div class="roulette-picker">
+                <select id="clan-select">
+                  <option value="">Escolha o clã</option>
+                </select>
+              </div>
             </div>
           </div>
 
           <div class="form-group">
             <label>Elemento principal</label>
-            <div class="roulette-container">
-              <div id="element-display" class="roulette-display">
-                <span class="roulette-placeholder">Gire para descobrir</span>
+            <div class="roulette-box">
+              <div class="roulette-row">
+                <div id="element-display" class="roulette-display" data-target="element-select">
+                  <span class="roulette-placeholder">Gire para descobrir</span>
+                </div>
+                <button type="button" id="spin-element" class="spin-button" title="Girar" aria-label="Girar">
+                  <span class="spin-icon">&#x27F3;</span>
+                </button>
               </div>
               <input type="hidden" id="element" required>
-              <button type="button" id="spin-element" class="spin-button">
-                <span class="spin-icon">&#x27F3;</span> Girar
-              </button>
-            </div>
-            <div class="select-or">
-              <span>ou escolha:</span>
-              <select id="element-select">
-                <option value="">Selecione um elemento</option>
-              </select>
+              <div class="roulette-picker">
+                <select id="element-select">
+                  <option value="">Escolha o elemento</option>
+                </select>
+              </div>
             </div>
           </div>
 
           <div id="kekkei-section" class="form-group">
             <label>Elemento secundário</label>
-            <div class="roulette-container">
-              <div id="element2-display" class="roulette-display">
-                <span class="roulette-placeholder">Gire para descobrir</span>
+            <div class="roulette-box">
+              <div class="roulette-row">
+                <div id="element2-display" class="roulette-display" data-target="element2-select">
+                  <span class="roulette-placeholder">Gire para descobrir</span>
+                </div>
+                <button type="button" id="spin-element2" class="spin-button" title="Girar" aria-label="Girar">
+                  <span class="spin-icon">&#x27F3;</span>
+                </button>
               </div>
               <input type="hidden" id="element2" name="element2">
-              <button type="button" id="spin-element2" class="spin-button">
-                <span class="spin-icon">&#x27F3;</span> Girar
-              </button>
+              <div class="roulette-picker">
+                <select id="element2-select">
+                  <option value="">Escolha o elemento</option>
+                </select>
+              </div>
             </div>
-            <div class="select-or">
-              <span>ou escolha:</span>
-              <select id="element2-select">
-                <option value="">Selecione um elemento</option>
-              </select>
-            </div>
-            <div id="kekkei-result" class="kekkei-result hidden">
-              <strong>Kekkei Genkai:</strong> <span id="kekkei-name"></span>
-            </div>
+          </div>
+
+          <div id="kekkei-result" class="kekkei-result">
+            <strong>Kekkei Genkai:</strong> <span id="kekkei-name">Não Possui</span>
           </div>
 
         </div>

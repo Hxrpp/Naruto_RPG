@@ -90,6 +90,7 @@ function loadCharacterData() {
         document.querySelector("#clan-display").innerHTML = data.clanDisplay;
         document.querySelector("#clan-display").classList.add("result");
       }
+      applyKekkeiSectionState({ resetValues: false });
     }
 
     if (data.element && data.elementHasResult) {
@@ -102,8 +103,8 @@ function loadCharacterData() {
     }
 
     if (data.kekkeiVisible && data.element) {
-      updateKekkeiSection();
-      if (data.element2 && data.element2HasResult) {
+      applyKekkeiSectionState({ resetValues: false });
+      if (canHaveElement2() && data.element2 && data.element2HasResult) {
         document.querySelector("#element2").value = data.element2;
         element2ManuelSelect.value = data.element2;
         if (data.element2Display) {
@@ -111,10 +112,7 @@ function loadCharacterData() {
           element2Display.classList.add("result");
         }
       }
-      if (data.kekkeiResultVisible && data.kekkeiName) {
-        kekkeiResult.classList.remove("hidden");
-        kekkeiName.textContent = data.kekkeiName;
-      }
+      updateKekkeiDisplay();
     }
 
     if (data.background) document.querySelector("#background").value = data.background;
@@ -549,7 +547,6 @@ const elementSelect = document.querySelector("#element");
 const elementDisplay = document.querySelector("#element-display");
 const spinElementButton = document.querySelector("#spin-element");
 const elementManuelSelect = document.querySelector("#element-select");
-const kekkeiSection = document.querySelector("#kekkei-section");
 const element2Display = document.querySelector("#element2-display");
 const element2Select = document.querySelector("#element2");
 const spinElement2Button = document.querySelector("#spin-element2");
@@ -596,6 +593,78 @@ const kekkeiCombinations = {
   "Doton+Suiton": "Deiton",
   "Suiton+Doton": "Deiton"
 };
+
+const clanKekkeiMap = {
+  Uchiha: {
+    name: "Sharingan",
+    clanName: "Uchiha",
+    village: "Konoha",
+    description: "Dōjutsu lendário dos Uchiha que concede capacidades sobre-humanas de percepção e cópia. Permite copiar qualquer técnica, prever movimentos e lançar genjutsu com o olhar.",
+    stages: [
+      { name: "1 Tomoe", ability: "Percepção aprimorada e cópia básica", exp: 50 },
+      { name: "2 Tomoe", ability: "Previsão de movimentos e cópia avançada", exp: 100 },
+      { name: "3 Tomoe", ability: "Cópia perfeita e genjutsu poderoso", exp: 200 }
+    ],
+    special: "Mangekyō Sharingan — Desbloqueia técnicas únicas como Amaterasu e Tsukuyomi"
+  },
+  "Hyūga": {
+    name: "Byakugan",
+    clanName: "Hyūga",
+    village: "Konoha",
+    description: "Dōjutsu ancestral dos Hyūga que concede visão quase 360° e a capacidade de ver o sistema circulatório de chakra. Fundamental para o estilo Jūken.",
+    stages: [
+      { name: "Básico", ability: "Visão de 360° com ponto cego traseiro", exp: 40 },
+      { name: "Evoluído", ability: "Visão sem pontos cegos e maior alcance", exp: 120 }
+    ],
+    special: "Pode ver barreiras de chakra e pontos fracos no corpo"
+  },
+  Chinoike: {
+    name: "Ketsuryūgan",
+    clanName: "Chinoike",
+    village: "Kumo",
+    description: "Dōjutsu raro que permite manipular o sangue de oponentes feridos. Concede controle sobre fluídos corporais e capacidade de criar ilusões de sangue.",
+    stages: [
+      { name: "Básico", ability: "Detecção de sangue e manipulação básica", exp: 60 },
+      { name: "Avançado", ability: "Controle total sobre fluídos corporais", exp: 150 }
+    ],
+    special: "Pode prender oponentes em veias de sangue solidificadas"
+  }
+};
+
+function getClanKekkei(clanName) {
+  return clanName ? clanKekkeiMap[clanName] || null : null;
+}
+
+function hasClanKekkei(clanName) {
+  return getClanKekkei(clanName) !== null;
+}
+
+const kekkeiDescriptionMap = {
+  Shakuton: "Combinação de Katon e Fūton que cria calor extremo, capaz de derreter tudo ao redor.",
+  Yōton: "Combinação de Katon e Doton que cria lava, manipulável em projéteis e barreiras.",
+  Futton: "Combinação de Katon e Suiton que cria vapor superaquecido, queimando e obscurecendo a visão.",
+  Ranton: "Combinação de Fūton e Raiton que cria tempestades elétricas controláveis.",
+  Jiton: "Combinação de Fūton e Doton que permite controlar metais e criar forças magnéticas.",
+  Hyōton: "Combinação de Fūton e Suiton que cria gelo para atacar, defender e congelar oponentes.",
+  Bakuton: "Combinação de Raiton e Doton que detona substâncias com choques elétricos.",
+  Deiton: "Combinação de Doton e Suiton que cria lama para afundar oponentes em pântanos.",
+  Mokuton: "Kekkei Genkai exclusiva do clã Senju — madeira viva com poder para construir, atacar e controlar bijūs."
+};
+
+const elementColors = {
+  Katon: "#e85d32",
+  Suiton: "#3a8fd4",
+  "Fūton": "#5aa85a",
+  Doton: "#a0855b",
+  Raiton: "#cf9b2e"
+};
+
+function elementChipHtml(elementValue) {
+  if (!elementValue || elementValue === "Não Possui") {
+    return `<span class="element-chip empty">Não Possui</span>`;
+  }
+  return `<span class="element-chip" style="--el-color:${elementColors[elementValue] || "#9b7ed8"};">${elementNames[elementValue] || elementValue}</span>`;
+}
 
 function getKekkeiGenkai(element1, element2) {
   const key = `${element1}+${element2}`;
@@ -697,34 +766,65 @@ function populateElement2Select() {
     });
 }
 
-function updateKekkeiSection() {
+function applyKekkeiSectionState({ resetValues = true } = {}) {
   const selectedElement = elementSelect.value;
 
-  element2Display.innerHTML = `<span class="roulette-placeholder">${selectedElement ? "Gire para descobrir" : "Escolha o elemento principal primeiro"}</span>`;
-  element2Display.classList.remove("result", "spinning");
-  element2Select.value = "";
-  element2ManuelSelect.value = "";
-  kekkeiResult.classList.add("hidden");
+  if (resetValues) {
+    let placeholder = selectedElement
+      ? "Gire para descobrir"
+      : "Escolha o elemento principal primeiro";
+    element2Display.innerHTML = `<span class="roulette-placeholder">${placeholder}</span>`;
+    element2Display.classList.remove("result", "spinning");
+    element2Select.value = "";
+    element2ManuelSelect.value = "";
+  }
+
   element2ManuelSelect.disabled = !selectedElement;
   spinElement2Button.disabled = !selectedElement;
-  populateElement2Select();
+  element2Display.classList.toggle("disabled", !selectedElement);
+  if (resetValues) populateElement2Select();
+  updateKekkeiDisplay();
+}
+
+function updateKekkeiSection() {
+  applyKekkeiSectionState({ resetValues: true });
+}
+
+function canHaveElement2() {
+  return Boolean(elementSelect.value);
+}
+
+function updateKekkeiDisplay() {
+  const clanKekkei = getClanKekkei(clanSelect.value);
+
+  if (clanKekkei) {
+    kekkeiName.textContent = clanKekkei.name;
+    kekkeiResult.classList.remove("empty");
+    return;
+  }
+
+  const primary = elementSelect.value;
+  const secondary = element2Select.value;
+
+  let kekkei = null;
+  if (primary && secondary && secondary !== "Não Possui") {
+    kekkei = getKekkeiGenkai(primary, secondary);
+    if (kekkei === "Deiton" && clanSelect.value === "Senju") {
+      kekkei = "Mokuton";
+    }
+  }
+
+  if (kekkei) {
+    kekkeiName.textContent = kekkei;
+    kekkeiResult.classList.remove("empty");
+  } else {
+    kekkeiName.textContent = "Não Possui";
+    kekkeiResult.classList.add("empty");
+  }
 }
 
 function updateClanSpinState() {
   spinClanButton.disabled = !villageSelect.value;
-}
-
-function applyKekkeiResult(primaryElement, secondaryElement) {
-  let kekkei = getKekkeiGenkai(primaryElement, secondaryElement);
-  if (kekkei === "Deiton" && clanSelect.value === "Senju") {
-    kekkei = "Mokuton";
-  }
-  if (kekkei) {
-    kekkeiName.textContent = kekkei;
-    kekkeiResult.classList.remove("hidden");
-  } else {
-    kekkeiResult.classList.add("hidden");
-  }
 }
 
 function spinElement2() {
@@ -744,12 +844,7 @@ function spinElement2() {
 
   spinRoulette(element2Display, element2Select, fullOptions, (selected) => {
     element2ManuelSelect.value = selected;
-
-    if (selected === "Não Possui") {
-      kekkeiResult.classList.add("hidden");
-    } else {
-      applyKekkeiResult(primaryElement, selected);
-    }
+    updateKekkeiDisplay();
   });
 }
 
@@ -773,6 +868,7 @@ function spinClan() {
 
   spinRoulette(clanDisplay, clanSelect, availableClans, (selectedClan) => {
     clanManuelSelect.value = selectedClan;
+    updateKekkeiSection();
   });
 }
 
@@ -949,11 +1045,15 @@ function buildCharacterSheet() {
   const bonuses = getClanBonuses();
   const primaryElement = elementSelect.value;
   const secondaryElement = element2Select.value || "Não Possui";
+  const clanKekkei = getClanKekkei(clanSelect.value);
   let kekkeiGenkai = secondaryElement !== "Não Possui"
     ? getKekkeiGenkai(primaryElement, secondaryElement) || "Nenhum"
     : "Nenhum";
   if (kekkeiGenkai === "Deiton" && clanSelect.value === "Senju") {
     kekkeiGenkai = "Mokuton";
+  }
+  if (clanKekkei) {
+    kekkeiGenkai = clanKekkei.name;
   }
 
   return {
@@ -965,6 +1065,7 @@ function buildCharacterSheet() {
     element2: secondaryElement,
     rank: document.querySelector("#rank").value,
     kekkeiGenkai: kekkeiGenkai,
+    clanKekkei: clanKekkei,
     attributes: {
       FOR: attributes.FOR + bonuses.FOR,
       AGI: attributes.AGI + bonuses.AGI,
@@ -1017,6 +1118,51 @@ function exportCharacterSheet() {
 
   const villageSymbolHtml =
     villageSymbols[character.village] || villageSymbols.other;
+
+  let clanDoujutsuHtml = "";
+  if (character.clanKekkei) {
+    clanDoujutsuHtml = `
+      <div class="clan-passive-box">
+        <div class="clan-passive-title">Descrição</div>
+        <div class="clan-passive-text">${escapeHtml(character.clanKekkei.description)}</div>
+      </div>
+      ${character.clanKekkei.stages ? `
+        <div class="doujutsu-stages">
+          ${character.clanKekkei.stages.map((stage) => `
+            <div class="doujutsu-stage">
+              <div>
+                <strong>${escapeHtml(stage.name)}</strong>
+                <div class="stage-ability">${escapeHtml(stage.ability)}</div>
+              </div>
+              <span class="stage-exp">${stage.exp} EXP</span>
+            </div>
+          `).join("")}
+        </div>
+      ` : ""}
+      ${character.clanKekkei.special ? `
+        <div class="clan-passive-box kekkei-special-box">
+          <div class="clan-passive-title">Especial</div>
+          <div class="clan-passive-text">${escapeHtml(character.clanKekkei.special)}</div>
+        </div>
+      ` : ""}
+    `;
+  }
+
+  let elementalKekkeiHtml = "";
+  if (!character.clanKekkei && character.kekkeiGenkai !== "Nenhum") {
+    const kekkeiDescription = kekkeiDescriptionMap[character.kekkeiGenkai];
+    if (kekkeiDescription) {
+      elementalKekkeiHtml = `
+        <div class="section">
+          <div class="section-title">Kekkei Genkai</div>
+          <div class="kekkei-box">
+            <div class="kekkei-name">${escapeHtml(character.kekkeiGenkai)}</div>
+            <div class="clan-passive-text">${escapeHtml(kekkeiDescription)}</div>
+          </div>
+        </div>
+      `;
+    }
+  }
 
   const printWindow = window.open("", "_blank");
 
@@ -1152,23 +1298,26 @@ function exportCharacterSheet() {
 
     .section-title {
       font-family: 'Cinzel', Georgia, serif;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 700;
-      color: #e87532;
-      padding-bottom: 8px;
-      margin-bottom: 16px;
-      border-bottom: 3px solid #e87532;
+      color: #18213a;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid #e7e2d8;
       position: relative;
     }
 
-    .section-title::after {
+    .section-title::before {
       content: "";
-      position: absolute;
-      bottom: -3px;
-      left: 70px;
-      width: 30px;
-      height: 3px;
-      background: #a83232;
+      display: inline-block;
+      width: 18px;
+      height: 2px;
+      background: linear-gradient(90deg, #e87532, #e9bd55);
     }
 
     .info-with-image {
@@ -1188,25 +1337,44 @@ function exportCharacterSheet() {
     }
 
     .info-item {
-      padding: 10px 12px;
-      background: #f8f6f2;
-      border-radius: 8px;
+      padding: 10px 14px;
+      background: #faf9f6;
+      border: 1px solid #eee9df;
       border-left: 3px solid #e87532;
+      border-radius: 8px;
     }
 
     .info-item strong {
       display: block;
-      font-size: 11px;
-      color: #888;
+      font-size: 10px;
+      color: #9a927f;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 2px;
+      letter-spacing: 1.5px;
+      margin-bottom: 3px;
     }
 
     .info-item span {
       font-size: 14px;
       color: #1a1a2e;
-      font-weight: 500;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .element-chip {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--el-color) 14%, white);
+      color: var(--el-color);
+      border: 1px solid color-mix(in srgb, var(--el-color) 35%, white);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .element-chip.empty {
+      background: #f2f0ea;
+      color: #9a927f;
+      border-color: #e4dfd3;
     }
 
     .character-image {
@@ -1284,47 +1452,53 @@ function exportCharacterSheet() {
 
     .resource-box {
       text-align: center;
-      padding: 18px 12px;
-      background: #f8f6f2;
+      padding: 20px 12px;
+      background: #faf9f6;
+      border: 1px solid #eee9df;
+      border-top: 3px solid #4b9acb;
       border-radius: 10px;
-      border-top: 4px solid #4b9acb;
     }
 
     .resource-label {
-      font-size: 11px;
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #888;
-      margin-bottom: 6px;
+      letter-spacing: 2px;
+      color: #9a927f;
+      margin-bottom: 8px;
     }
 
     .resource-value {
       font-family: 'Cinzel', Georgia, serif;
-      font-size: 26px;
+      font-size: 30px;
+      font-weight: 900;
+      color: #18213a;
+      line-height: 1;
+    }
+
+    .kekkei-box {
+      padding: 18px 20px;
+      background: linear-gradient(135deg, #f4f1ea, #faf8f3);
+      border: 1px solid #e7e2d8;
+      border-left: 4px solid #4b9acb;
+      border-radius: 10px;
+    }
+
+    .kekkei-name {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 20px;
       font-weight: 700;
       color: #4b9acb;
-    }
-
-    .resource-formula {
-      font-size: 11px;
-      color: #aaa;
-      margin-top: 4px;
-    }
-
-    .resource-bonus {
-      font-size: 11px;
-      color: #e87532;
-      font-weight: 600;
-      margin-top: 4px;
+      margin-bottom: 6px;
     }
 
     .text-box {
       padding: 16px;
-      background: #f8f6f2;
+      background: #faf9f6;
+      border: 1px solid #eee9df;
       border-radius: 10px;
       min-height: 80px;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
       color: #333;
       overflow-wrap: anywhere;
     }
@@ -1336,12 +1510,61 @@ function exportCharacterSheet() {
 
     .clan-passive-box {
       padding: 14px 18px;
-      background: linear-gradient(135deg, #fdf6ec, #f8f0e0);
+      background: #faf9f6;
+      border: 1px solid #eee9df;
       border-left: 4px solid #e87532;
       border-radius: 8px;
       font-size: 14px;
       line-height: 1.6;
-      color: #5a4a3a;
+      color: #3a4258;
+    }
+
+    .clan-passive-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #9a927f;
+      margin-bottom: 6px;
+    }
+
+    .doujutsu-stages {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .doujutsu-stage {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: white;
+      border: 1px solid #eee9df;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #1a1a2e;
+    }
+
+    .stage-ability {
+      font-size: 12px;
+      color: #7a8296;
+      margin-top: 2px;
+    }
+
+    .stage-exp {
+      color: #e87532;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .kekkei-special-box {
+      margin-top: 14px;
+      border-left-color: #4b9acb;
+      background: #f4f8fb;
+      border-color: #dfe9f0;
+      color: #274b62;
     }
 
     .footer {
@@ -1439,11 +1662,11 @@ function exportCharacterSheet() {
             </div>
             <div class="info-item">
               <strong>Elemento</strong>
-              <span>${elementNames[character.element] || character.element}</span>
+              <span>${elementChipHtml(character.element)}</span>
             </div>
             <div class="info-item">
               <strong>Elemento Secundário</strong>
-              <span>${character.element2 !== "Não Possui" ? (elementNames[character.element2] || character.element2) : "Não Possui"}</span>
+              <span>${elementChipHtml(character.element2)}</span>
             </div>
             <div class="info-item">
               <strong>Patente</strong>
@@ -1459,11 +1682,18 @@ function exportCharacterSheet() {
       </div>
     </div>
 
+    ${elementalKekkeiHtml}
+
     <div class="section">
       <div class="section-title">Clã — ${escapeHtml(character.clan)}</div>
       <div class="clan-passive-box">
+        <div class="clan-passive-title">Passiva do clã</div>
         <div class="clan-passive-text">${escapeHtml(clans.find(c => c.name === character.clan && c.village === character.village)?.passive || "")}</div>
       </div>
+      ${character.clanKekkei ? `
+        <div class="section-title" style="margin-top:18px;">Dōjutsu — ${escapeHtml(character.clanKekkei.name)}</div>
+        ${clanDoujutsuHtml}
+      ` : ""}
     </div>
 
     <div class="section">
@@ -1503,17 +1733,14 @@ function exportCharacterSheet() {
         <div class="resource-box">
           <div class="resource-label">Vida</div>
           <div class="resource-value">${character.health}</div>
-          ${character.bonuses.HP > 0 ? `<div class="resource-bonus">+${character.bonuses.HP} do clã</div>` : `<div class="resource-formula">20 + FOR × 5</div>`}
         </div>
         <div class="resource-box">
           <div class="resource-label">Chakra</div>
           <div class="resource-value">${character.chakra}</div>
-          ${character.bonuses.Chakra > 0 ? `<div class="resource-bonus">+${character.bonuses.Chakra} do clã</div>` : `<div class="resource-formula">20 + CC × 5</div>`}
         </div>
         <div class="resource-box">
           <div class="resource-label">Defesa</div>
           <div class="resource-value">${character.defense}</div>
-          ${character.bonuses.DEF > 0 ? `<div class="resource-bonus">+${character.bonuses.DEF} do clã</div>` : `<div class="resource-formula">10 + AGI</div>`}
         </div>
       </div>
     </div>
@@ -1605,10 +1832,8 @@ villageSelect.addEventListener("change", () => {
   clanSelect.value = "";
   clanManuelSelect.value = "";
   populateClanSelect();
-  element2Select.value = "";
-  element2ManuelSelect.value = "";
-  kekkeiResult.classList.add("hidden");
   updateClanSpinState();
+  updateKekkeiSection();
   saveCharacterData();
 });
 
@@ -1626,6 +1851,18 @@ spinElement2Button.addEventListener("click", spinElement2);
 imageInput.addEventListener("change", handleImageUpload);
 removeImageButton.addEventListener("click", removeImage);
 
+document.querySelectorAll(".roulette-display").forEach((display) => {
+  display.addEventListener("click", () => {
+    const select = document.querySelector(`#${display.dataset.target}`);
+    if (!select || select.disabled) return;
+    try {
+      select.showPicker();
+    } catch (e) {
+      select.focus();
+    }
+  });
+});
+
 clanManuelSelect.addEventListener("change", () => {
   if (isLoading) return;
   const value = clanManuelSelect.value;
@@ -1637,6 +1874,7 @@ clanManuelSelect.addEventListener("change", () => {
     clanDisplay.innerHTML = `<span class="roulette-placeholder">Escolha sua vila primeiro</span>`;
     clanDisplay.classList.remove("result", "spinning");
   }
+  updateKekkeiSection();
 });
 
 elementManuelSelect.addEventListener("change", () => {
@@ -1661,17 +1899,11 @@ element2ManuelSelect.addEventListener("change", () => {
 
   if (value) {
     setRouletteResult(element2Display, value);
-
-    if (value === "Não Possui") {
-      kekkeiResult.classList.add("hidden");
-    } else {
-      applyKekkeiResult(elementSelect.value, value);
-    }
   } else {
     element2Display.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
     element2Display.classList.remove("result", "spinning");
-    kekkeiResult.classList.add("hidden");
   }
+  updateKekkeiDisplay();
 });
 
 document.querySelectorAll("input[type='text'], textarea").forEach((input) => {
