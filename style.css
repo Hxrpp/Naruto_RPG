@@ -641,42 +641,6 @@ textarea {
   color: white;
 }
 
-/* Informações do clã */
-
-.clan-info {
-  padding: 20px;
-  border: 1px solid #3f4c60;
-  border-radius: 8px;
-  background:
-    linear-gradient(135deg, rgba(75, 154, 203, 0.08), transparent),
-    #182333;
-}
-
-.clan-info.empty {
-  color: var(--muted);
-  font-style: italic;
-}
-
-.clan-info h3 {
-  margin: 0 0 12px;
-  color: var(--orange);
-  font-family: Georgia, serif;
-  font-size: 1.35rem;
-}
-
-.clan-info p {
-  margin: 0 0 12px;
-  color: #d7dce4;
-}
-
-.clan-info p:last-child {
-  margin-bottom: 0;
-}
-
-.clan-info strong {
-  color: var(--yellow);
-}
-
 /* Atributos */
 
 .points-counter {
@@ -1001,10 +965,6 @@ textarea {
     width: 100%;
     max-width: 200px;
     margin: 0 auto;
-  }
-
-  .clan-info {
-    font-size: 0.85rem;
   }
 
   .attributes-list {

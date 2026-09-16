@@ -89,7 +89,6 @@ function loadCharacterData() {
         document.querySelector("#clan-display").innerHTML = data.clanDisplay;
         document.querySelector("#clan-display").classList.add("result");
       }
-      showClanInfo(data.clan);
     }
 
     if (data.element && data.elementHasResult) {
@@ -556,7 +555,6 @@ const spinElement2Button = document.querySelector("#spin-element2");
 const element2ManuelSelect = document.querySelector("#element2-select");
 const kekkeiResult = document.querySelector("#kekkei-result");
 const kekkeiName = document.querySelector("#kekkei-name");
-const clanInfo = document.querySelector("#clan-info");
 const form = document.querySelector("#character-form");
 const formMessage = document.querySelector("#form-message");
 
@@ -770,7 +768,6 @@ function spinClan() {
 
   spinRoulette(clanDisplay, clanSelect, availableClans, (selectedClan) => {
     clanManuelSelect.value = selectedClan;
-    showClanInfo(selectedClan);
   });
 }
 
@@ -779,35 +776,6 @@ function spinElement() {
     elementManuelSelect.value = selectedElement;
     updateKekkeiSection();
   });
-}
-
-function showEmptyClanInfo() {
-  clanInfo.classList.add("empty");
-  clanInfo.innerHTML = `
-    Gire a roleta do clã para visualizar as informações.
-  `;
-}
-
-function showClanInfo(clanName) {
-  const selectedClanName = clanName || clanSelect.value;
-  const selectedClan = clans.find(
-    (clan) =>
-      clan.village === villageSelect.value &&
-      clan.name === selectedClanName
-  );
-
-  if (!selectedClan) {
-    showEmptyClanInfo();
-    return;
-  }
-
-  clanInfo.classList.remove("empty");
-
-  clanInfo.innerHTML = `
-    <h3>${selectedClan.name}</h3>
-    <p>${selectedClan.description}</p>
-    <p><strong>Passiva:</strong> ${selectedClan.passive}</p>
-  `;
 }
 
 function updateAttributeDisplay(attribute) {
@@ -1594,7 +1562,6 @@ function resetForm() {
 
   updatePointsDisplay();
   updateResources();
-  showEmptyClanInfo();
   removeImage();
 
   clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
@@ -1627,7 +1594,6 @@ document.querySelectorAll(".decrease").forEach((button) => {
 
 villageSelect.addEventListener("change", () => {
   if (isLoading) return;
-  showEmptyClanInfo();
   clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
   clanDisplay.classList.remove("result", "spinning");
   clanSelect.value = "";
@@ -1660,11 +1626,9 @@ clanManuelSelect.addEventListener("change", () => {
 
   if (value) {
     setRouletteResult(clanDisplay, value);
-    showClanInfo(value);
   } else {
     clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
     clanDisplay.classList.remove("result", "spinning");
-    showEmptyClanInfo();
   }
 });
 
@@ -1725,7 +1689,6 @@ Object.keys(attributes).forEach((attribute) => {
 document.querySelector("#rank").value = "Genin";
 updatePointsDisplay();
 updateResources();
-showEmptyClanInfo();
 populateClanSelect();
 populateElementSelect();
 updateKekkeiSection();
