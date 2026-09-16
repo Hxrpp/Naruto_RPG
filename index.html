@@ -91,6 +91,12 @@
                 <span class="spin-icon">&#x27F3;</span> Girar
               </button>
             </div>
+            <div class="select-or">
+              <span>ou escolha:</span>
+              <select id="clan-select">
+                <option value="">Selecione um clã</option>
+              </select>
+            </div>
           </div>
 
           <div class="form-group">
@@ -104,9 +110,15 @@
                 <span class="spin-icon">&#x27F3;</span> Girar
               </button>
             </div>
+            <div class="select-or">
+              <span>ou escolha:</span>
+              <select id="element-select">
+                <option value="">Selecione um elemento</option>
+              </select>
+            </div>
           </div>
 
-          <div id="kekkei-section" class="form-group hidden">
+          <div id="kekkei-section" class="form-group">
             <label>Elemento secundário</label>
             <div class="roulette-container">
               <div id="element2-display" class="roulette-display">
@@ -117,19 +129,15 @@
                 <span class="spin-icon">&#x27F3;</span> Girar
               </button>
             </div>
+            <div class="select-or">
+              <span>ou escolha:</span>
+              <select id="element2-select">
+                <option value="">Selecione um elemento</option>
+              </select>
+            </div>
             <div id="kekkei-result" class="kekkei-result hidden">
               <strong>Kekkei Genkai:</strong> <span id="kekkei-name"></span>
             </div>
-          </div>
-
-          <div class="form-group">
-            <label for="rank">Patente</label>
-            <select id="rank" required>
-              <option value="">Selecione uma patente</option>
-              <option value="Genin">Genin</option>
-              <option value="Chūnin">Chūnin</option>
-              <option value="Jōnin">Jōnin</option>
-            </select>
           </div>
 
         </div>
@@ -199,6 +207,16 @@
           <div class="points-counter">
             <span id="points-used">0</span>
             <span>/ <span id="points-total">10</span> pontos</span>
+          </div>
+        </div>
+
+        <div class="rank-buttons">
+          <label>Patente:</label>
+          <div class="rank-buttons-group">
+            <input type="hidden" id="rank" required>
+            <button type="button" class="rank-btn active" data-rank="Genin">Genin</button>
+            <button type="button" class="rank-btn" data-rank="Chūnin">Chūnin</button>
+            <button type="button" class="rank-btn" data-rank="Jōnin">Jōnin</button>
           </div>
         </div>
 

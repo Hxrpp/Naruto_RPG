@@ -65,10 +65,14 @@ function loadCharacterData() {
         MAX_ATTRIBUTE = settings.maxAttribute;
         TOTAL_POINTS = settings.totalPoints;
       }
+      document.querySelectorAll(".rank-btn").forEach((button) => {
+        button.classList.toggle("active", button.dataset.rank === data.rank);
+      });
     }
 
     if (data.village) {
       document.querySelector("#village").value = data.village;
+      populateClanSelect();
     }
 
     if (data.attributes) {
@@ -80,6 +84,7 @@ function loadCharacterData() {
 
     if (data.clan && data.clanHasResult) {
       document.querySelector("#clan").value = data.clan;
+      clanManuelSelect.value = data.clan;
       if (data.clanDisplay) {
         document.querySelector("#clan-display").innerHTML = data.clanDisplay;
         document.querySelector("#clan-display").classList.add("result");
@@ -89,6 +94,7 @@ function loadCharacterData() {
 
     if (data.element && data.elementHasResult) {
       document.querySelector("#element").value = data.element;
+      elementManuelSelect.value = data.element;
       if (data.elementDisplay) {
         document.querySelector("#element-display").innerHTML = data.elementDisplay;
         document.querySelector("#element-display").classList.add("result");
@@ -96,9 +102,10 @@ function loadCharacterData() {
     }
 
     if (data.kekkeiVisible && data.element) {
-      kekkeiSection.classList.remove("hidden");
+      updateKekkeiSection();
       if (data.element2 && data.element2HasResult) {
         document.querySelector("#element2").value = data.element2;
+        element2ManuelSelect.value = data.element2;
         if (data.element2Display) {
           element2Display.innerHTML = data.element2Display;
           element2Display.classList.add("result");
@@ -387,7 +394,7 @@ const clans = [
   },
   {
     name: "Chinoike",
-    village: "other",
+    village: "Kumo",
     description: "Clã proscrito portador do Ketsuryūgan, um dōjutsu que permite manipular o sangue. Considerados perigosos e caçados.",
     passive: "Pode manipular sangue de oponentes feridos.",
     techniques: "Ketsuryūgan, Chikara no Suiheisen, Blood Containment.",
@@ -537,13 +544,16 @@ const villageSelect = document.querySelector("#village");
 const clanSelect = document.querySelector("#clan");
 const clanDisplay = document.querySelector("#clan-display");
 const spinClanButton = document.querySelector("#spin-clan");
+const clanManuelSelect = document.querySelector("#clan-select");
 const elementSelect = document.querySelector("#element");
 const elementDisplay = document.querySelector("#element-display");
 const spinElementButton = document.querySelector("#spin-element");
+const elementManuelSelect = document.querySelector("#element-select");
 const kekkeiSection = document.querySelector("#kekkei-section");
 const element2Display = document.querySelector("#element2-display");
 const element2Select = document.querySelector("#element2");
 const spinElement2Button = document.querySelector("#spin-element2");
+const element2ManuelSelect = document.querySelector("#element2-select");
 const kekkeiResult = document.querySelector("#kekkei-result");
 const kekkeiName = document.querySelector("#kekkei-name");
 const clanInfo = document.querySelector("#clan-info");
@@ -622,7 +632,7 @@ function spinRoulette(displayElement, hiddenInput, options, callback) {
       hiddenInput.value = finalOption;
       spinClanButton.disabled = false;
       spinElementButton.disabled = false;
-      spinElement2Button.disabled = false;
+      spinElement2Button.disabled = !elementSelect.value;
 
       if (callback) callback(finalOption);
       saveCharacterData();
@@ -630,21 +640,88 @@ function spinRoulette(displayElement, hiddenInput, options, callback) {
   }, 100);
 }
 
-function updateKekkeiSection() {
-  const selectedElement = elementSelect.value;
+function setRouletteResult(displayElement, value) {
+  displayElement.innerHTML = `<span class="roulette-text">${value}</span>`;
+  displayElement.classList.remove("spinning");
+  displayElement.classList.add("result");
+}
 
-  if (!selectedElement) {
-    kekkeiSection.classList.add("hidden");
-    element2Select.value = "";
-    kekkeiResult.classList.add("hidden");
+function populateClanSelect(village = villageSelect.value) {
+  clanManuelSelect.innerHTML = '<option value="">Selecione um clã</option>';
+
+  if (!village) {
     return;
   }
 
-  kekkeiSection.classList.remove("hidden");
-  element2Display.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+  clans
+    .filter((c) => c.village === village)
+    .forEach((c) => {
+      const opt = document.createElement("option");
+      opt.value = c.name;
+      opt.textContent = c.name;
+      clanManuelSelect.appendChild(opt);
+    });
+}
+
+function populateElementSelect() {
+  elementManuelSelect.innerHTML = '<option value="">Selecione um elemento</option>';
+
+  allElements.forEach((el) => {
+    const opt = document.createElement("option");
+    opt.value = el;
+    opt.textContent = elementNames[el] || el;
+    elementManuelSelect.appendChild(opt);
+  });
+}
+
+function populateElement2Select() {
+  element2ManuelSelect.innerHTML = '<option value="">Selecione um elemento</option>';
+
+  const primaryElement = elementSelect.value;
+
+  if (!primaryElement) {
+    return;
+  }
+
+  const optNone = document.createElement("option");
+  optNone.value = "Não Possui";
+  optNone.textContent = "Não Possui";
+  element2ManuelSelect.appendChild(optNone);
+
+  allElements
+    .filter((el) => el !== primaryElement)
+    .forEach((el) => {
+      const opt = document.createElement("option");
+      opt.value = el;
+      opt.textContent = elementNames[el] || el;
+      element2ManuelSelect.appendChild(opt);
+    });
+}
+
+function updateKekkeiSection() {
+  const selectedElement = elementSelect.value;
+
+  element2Display.innerHTML = `<span class="roulette-placeholder">${selectedElement ? "Gire para descobrir" : "Escolha o elemento principal primeiro"}</span>`;
   element2Display.classList.remove("result", "spinning");
   element2Select.value = "";
+  element2ManuelSelect.value = "";
   kekkeiResult.classList.add("hidden");
+  element2ManuelSelect.disabled = !selectedElement;
+  spinElement2Button.disabled = !selectedElement;
+  populateElement2Select();
+}
+
+function applyKekkeiResult(primaryElement, secondaryElement) {
+  let kekkei = getKekkeiGenkai(primaryElement, secondaryElement);
+  if (kekkei === "Deiton" && clanSelect.value === "Senju") {
+    kekkei = "Mokuton";
+  }
+  if (kekkei) {
+    kekkeiName.textContent = kekkei;
+    kekkeiResult.classList.remove("hidden");
+  } else {
+    kekkeiResult.classList.add("hidden");
+  }
 }
 
 function spinElement2() {
@@ -663,19 +740,12 @@ function spinElement2() {
   ];
 
   spinRoulette(element2Display, element2Select, fullOptions, (selected) => {
+    element2ManuelSelect.value = selected;
+
     if (selected === "Não Possui") {
       kekkeiResult.classList.add("hidden");
     } else {
-      let kekkei = getKekkeiGenkai(primaryElement, selected);
-      if (kekkei === "Deiton" && clanSelect.value === "Senju") {
-        kekkei = "Mokuton";
-      }
-      if (kekkei) {
-        kekkeiName.textContent = kekkei;
-        kekkeiResult.classList.remove("hidden");
-      } else {
-        kekkeiResult.classList.add("hidden");
-      }
+      applyKekkeiResult(primaryElement, selected);
     }
   });
 }
@@ -699,12 +769,14 @@ function spinClan() {
   }
 
   spinRoulette(clanDisplay, clanSelect, availableClans, (selectedClan) => {
+    clanManuelSelect.value = selectedClan;
     showClanInfo(selectedClan);
   });
 }
 
 function spinElement() {
-  spinRoulette(elementDisplay, elementSelect, allElements, () => {
+  spinRoulette(elementDisplay, elementSelect, allElements, (selectedElement) => {
+    elementManuelSelect.value = selectedElement;
     updateKekkeiSection();
   });
 }
@@ -759,6 +831,7 @@ function updatePointsDisplay() {
   const usedPoints = getUsedPoints();
 
   document.querySelector("#points-used").textContent = usedPoints;
+  document.querySelector("#points-total").textContent = TOTAL_POINTS;
 
   document.querySelectorAll(".increase").forEach((button) => {
     const attribute = button.dataset.attribute;
@@ -784,6 +857,34 @@ function updateResources() {
 
   document.querySelector("#defense-value").textContent =
     10 + attributes.AGI;
+}
+
+function selectRank(rank) {
+  const settings = rankSettings[rank];
+
+  if (!settings) {
+    return;
+  }
+
+  MAX_ATTRIBUTE = settings.maxAttribute;
+  TOTAL_POINTS = settings.totalPoints;
+
+  document.querySelector("#rank").value = rank;
+
+  document.querySelectorAll(".rank-btn").forEach((button) => {
+    button.classList.toggle("active", button.dataset.rank === rank);
+  });
+
+  Object.keys(attributes).forEach((attr) => {
+    if (attributes[attr] > MAX_ATTRIBUTE) {
+      attributes[attr] = MAX_ATTRIBUTE;
+    }
+    updateAttributeDisplay(attr);
+  });
+
+  updatePointsDisplay();
+  updateResources();
+  saveCharacterData();
 }
 
 function changeAttribute(attribute, amount) {
@@ -1486,6 +1587,11 @@ function resetForm() {
     updateAttributeDisplay(attribute);
   });
 
+  document.querySelector("#rank").value = "Genin";
+  document.querySelectorAll(".rank-btn").forEach((button) => {
+    button.classList.toggle("active", button.dataset.rank === "Genin");
+  });
+
   updatePointsDisplay();
   updateResources();
   showEmptyClanInfo();
@@ -1493,14 +1599,15 @@ function resetForm() {
 
   clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
   clanDisplay.classList.remove("result", "spinning");
+  clanSelect.value = "";
+  clanManuelSelect.value = "";
+  populateClanSelect();
   elementDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
   elementDisplay.classList.remove("result", "spinning");
-
-  kekkeiSection.classList.add("hidden");
-  element2Display.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
-  element2Display.classList.remove("result", "spinning");
-  element2Select.value = "";
-  kekkeiResult.classList.add("hidden");
+  elementSelect.value = "";
+  elementManuelSelect.value = "";
+  populateElementSelect();
+  updateKekkeiSection();
 
   formMessage.textContent = "";
   clearSavedData();
@@ -1524,31 +1631,19 @@ villageSelect.addEventListener("change", () => {
   clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
   clanDisplay.classList.remove("result", "spinning");
   clanSelect.value = "";
-  kekkeiSection.classList.add("hidden");
+  clanManuelSelect.value = "";
+  populateClanSelect();
   element2Select.value = "";
+  element2ManuelSelect.value = "";
   kekkeiResult.classList.add("hidden");
   saveCharacterData();
 });
 
-document.querySelector("#rank").addEventListener("change", (event) => {
-  const rank = event.target.value;
-  const settings = rankSettings[rank];
-
-  if (settings) {
-    MAX_ATTRIBUTE = settings.maxAttribute;
-    TOTAL_POINTS = settings.totalPoints;
-
-    Object.keys(attributes).forEach((attr) => {
-      if (attributes[attr] > MAX_ATTRIBUTE) {
-        attributes[attr] = MAX_ATTRIBUTE;
-      }
-      updateAttributeDisplay(attr);
-    });
-
-    updatePointsDisplay();
-    updateResources();
-    saveCharacterData();
-  }
+document.querySelectorAll(".rank-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (isLoading) return;
+    selectRank(button.dataset.rank);
+  });
 });
 
 spinClanButton.addEventListener("click", spinClan);
@@ -1557,6 +1652,56 @@ spinElement2Button.addEventListener("click", spinElement2);
 
 imageInput.addEventListener("change", handleImageUpload);
 removeImageButton.addEventListener("click", removeImage);
+
+clanManuelSelect.addEventListener("change", () => {
+  if (isLoading) return;
+  const value = clanManuelSelect.value;
+  clanSelect.value = value;
+
+  if (value) {
+    setRouletteResult(clanDisplay, value);
+    showClanInfo(value);
+  } else {
+    clanDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+    clanDisplay.classList.remove("result", "spinning");
+    showEmptyClanInfo();
+  }
+});
+
+elementManuelSelect.addEventListener("change", () => {
+  if (isLoading) return;
+  const value = elementManuelSelect.value;
+  elementSelect.value = value;
+
+  if (value) {
+    setRouletteResult(elementDisplay, value);
+  } else {
+    elementDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+    elementDisplay.classList.remove("result", "spinning");
+  }
+
+  updateKekkeiSection();
+});
+
+element2ManuelSelect.addEventListener("change", () => {
+  if (isLoading) return;
+  const value = element2ManuelSelect.value;
+  element2Select.value = value;
+
+  if (value) {
+    setRouletteResult(element2Display, value);
+
+    if (value === "Não Possui") {
+      kekkeiResult.classList.add("hidden");
+    } else {
+      applyKekkeiResult(elementSelect.value, value);
+    }
+  } else {
+    element2Display.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+    element2Display.classList.remove("result", "spinning");
+    kekkeiResult.classList.add("hidden");
+  }
+});
 
 document.querySelectorAll("input[type='text'], textarea").forEach((input) => {
   input.addEventListener("input", saveCharacterData);
@@ -1577,7 +1722,11 @@ Object.keys(attributes).forEach((attribute) => {
   updateAttributeDisplay(attribute);
 });
 
+document.querySelector("#rank").value = "Genin";
 updatePointsDisplay();
 updateResources();
 showEmptyClanInfo();
+populateClanSelect();
+populateElementSelect();
+updateKekkeiSection();
 loadCharacterData();

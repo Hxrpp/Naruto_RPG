@@ -438,6 +438,69 @@ textarea {
   animation: spinCycle 0.15s linear infinite;
 }
 
+.select-or {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.select-or > span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.select-or select {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+}
+
+.rank-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.rank-buttons > label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.rank-buttons-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rank-btn {
+  padding: 10px 22px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: #151d2a;
+  color: var(--muted);
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rank-btn:hover {
+  border-color: var(--orange);
+  color: var(--text);
+}
+
+.rank-btn.active {
+  border-color: var(--orange);
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  color: white;
+  box-shadow: 0 4px 12px rgba(232, 117, 50, 0.4);
+}
+
 .kekkei-description {
   color: var(--muted);
   font-size: 0.9rem;
