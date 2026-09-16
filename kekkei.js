@@ -90,6 +90,28 @@ const doujutsuList = [
       { name: "Avançado", ability: "Controle total sobre fluídos corporais", exp: 150 }
     ],
     special: "Pode prender oponentes em veias de sangue solidificadas"
+  },
+  {
+    name: "Jūryoku",
+    clan: "Ganryū",
+    village: "Iwa",
+    description: "Kekkei Genkai capaz de manipular a gravidade até certo nível. Permite criar campos gravitacionais que esmagam, levitam ou distorcem o espaço ao redor.",
+    stages: [
+      { name: "Básico", ability: "Manipulação básica de gravidade e levitação", exp: 80 },
+      { name: "Avançado", ability: "Campos gravitacionais devastadores e distorção espacial", exp: 180 }
+    ],
+    special: "Pode criar zonas de gravidade zero ou compressão extrema"
+  },
+  {
+    name: "Shikotsumyaku",
+    clan: "Kaguya",
+    village: "Kiri",
+    description: "Kekkei Genkai ancestral que permite manipular os ossos do próprio corpo. Os ossos podem ser projetados como armas, fortalecidos ou removidos para atacar.",
+    stages: [
+      { name: "Básico", ability: "Fortalecimento ósseo e projéteis de ossos", exp: 70 },
+      { name: "Avançado", ability: "Controle total sobre ossos corporais e armas ósseas", exp: 160 }
+    ],
+    special: "Pode extrair e manipular ossos como lâminas perfurantes"
   }
 ];
 
@@ -140,7 +162,9 @@ function renderDoujutsu() {
   const clanColors = {
     "Uchiha": "#e83232",
     "Hyūga": "#e0e0e0",
-    "Chinoike": "#8b0000"
+    "Chinoike": "#8b0000",
+    "Ganryū": "#8b7355",
+    "Kaguya": "#d4c5a9"
   };
 
   list.innerHTML = doujutsuList.map((doujutsu) => {
