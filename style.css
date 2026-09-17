@@ -696,6 +696,33 @@ textarea {
   font-weight: bold;
 }
 
+.exp-display {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid rgba(232, 117, 50, 0.45);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.exp-value {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--orange);
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  min-width: 80px;
+  text-align: center;
+}
+
+.exp-label {
+  font-size: 14px;
+  color: #b6bdc8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 .attributes-list {
   display: flex;
   flex-direction: column;

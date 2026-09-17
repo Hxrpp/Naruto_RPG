@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Naruto RPG - Ficha de Jutsu</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <h2>Naruto RPG</h2>
+        <p>Sistema de Jogo</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html">
+          <span class="nav-icon">&#x1F4CB;</span> Ficha de Personagem
+        </a>
+        <a href="jutsu-sheet.html" class="active">
+          <span class="nav-icon">&#x1F4DC;</span> Ficha de Jutsu
+        </a>
+        <a href="jutsus.html">
+          <span class="nav-icon">&#x1F525;</span> Lista de Jutsus
+        </a>
+        <a href="clans.html">
+          <span class="nav-icon">&#x2694;</span> Lista de Clãs
+        </a>
+        <a href="kekkei.html">
+          <span class="nav-icon">&#x1F441;</span> Lista de Kekkei Genkais
+        </a>
+      </nav>
+    </aside>
+
+    <div class="main-content">
+      <main class="container">
+
+        <header class="page-header">
+          <h1>Ficha de Jutsu</h1>
+          <p>Crie e gerencie suas técnicas ninja.</p>
+        </header>
+
+      <p id="form-message" class="form-message"></p>
+
+      <form id="jutsu-form">
+
+        <section class="card">
+          <h2>Identificação</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="jutsu-name">Nome da Técnica</label>
+              <input
+                type="text"
+                id="jutsu-name"
+                required
+              >
+            </div>
+            <div class="form-group">
+              <label for="jutsu-user">Nome do Personagem</label>
+              <input
+                type="text"
+                id="jutsu-user"
+              >
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Classificação</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Rank do Jutsu</label>
+              <div class="rank-buttons">
+                <input type="hidden" id="jutsu-rank" required>
+                <button type="button" class="rank-btn active" data-rank="D">D</button>
+                <button type="button" class="rank-btn" data-rank="C">C</button>
+                <button type="button" class="rank-btn" data-rank="B">B</button>
+                <button type="button" class="rank-btn" data-rank="A">A</button>
+                <button type="button" class="rank-btn" data-rank="S">S</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="jutsu-type">Tipo de Jutsu</label>
+              <select id="jutsu-type" required>
+                <option value="">Selecione o tipo</option>
+                <option value="Ninjutsu">Ninjutsu</option>
+                <option value="Genjutsu">Genjutsu</option>
+                <option value="Taijutsu">Taijutsu</option>
+                <option value="Kenjutsu">Kenjutsu</option>
+                <option value="Fūinjutsu">Fūinjutsu</option>
+                <option value="Subjutsu">Subjutsu</option>
+                <option value="Kekkei Genkai">Kekkei Genkai</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>EXP Necessária</h2>
+          <div class="exp-display">
+            <div class="exp-value" id="exp-cost">20</div>
+            <div class="exp-label">EXP para criar</div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Descrição</h2>
+          <div class="form-group">
+            <textarea
+              id="jutsu-description"
+              rows="5"
+            ></textarea>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Notas Adicionais</h2>
+          <div class="form-group">
+            <textarea
+              id="jutsu-notes"
+              rows="3"
+            ></textarea>
+          </div>
+        </section>
+
+        <div class="form-actions">
+          <button type="button" id="export-button" class="primary-button">
+            Exportar Ficha
+          </button>
+          <button type="button" id="reset-button" class="secondary-button">
+            Limpar Ficha
+          </button>
+        </div>
+
+      </form>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="jutsu-sheet.js"></script>
+</body>
+</html>
