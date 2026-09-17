@@ -72,15 +72,28 @@
           </div>
 
           <div class="form-group">
-            <label for="village">Vila de origem</label>
-            <select id="village" required>
-              <option value="">Selecione uma vila</option>
-              <option value="Konoha">Konohagakure</option>
-              <option value="Kazesuna">Sunagakure</option>
-              <option value="Kiri">Kirigakure</option>
-              <option value="Kumo">Kumogakure</option>
-              <option value="Iwa">Iwagakure</option>
-            </select>
+            <label>Vila de origem</label>
+            <div class="roulette-box">
+              <div class="roulette-row">
+                <div id="village-display" class="roulette-display" data-target="village-select">
+                  <span class="roulette-placeholder">Gire para descobrir</span>
+                </div>
+                <button type="button" id="spin-village" class="spin-button" title="Girar" aria-label="Girar">
+                  <span class="spin-icon">&#x27F3;</span>
+                </button>
+              </div>
+              <input type="hidden" id="village" required>
+              <div class="roulette-picker">
+                <select id="village-select">
+                  <option value="">Escolha a vila</option>
+                  <option value="Konoha">Konoha</option>
+                  <option value="Kazesuna">Suna</option>
+                  <option value="Kiri">Kiri</option>
+                  <option value="Kumo">Kumo</option>
+                  <option value="Iwa">Iwa</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div class="form-group">
@@ -90,13 +103,13 @@
                 <div id="clan-display" class="roulette-display" data-target="clan-select">
                   <span class="roulette-placeholder">Escolha sua vila primeiro</span>
                 </div>
-                <button type="button" id="spin-clan" class="spin-button" title="Girar" aria-label="Girar">
+                <button type="button" id="spin-clan" class="spin-button" title="Girar" aria-label="Girar" disabled>
                   <span class="spin-icon">&#x27F3;</span>
                 </button>
               </div>
               <input type="hidden" id="clan" required>
               <div class="roulette-picker">
-                <select id="clan-select">
+                <select id="clan-select" disabled>
                   <option value="">Escolha o clã</option>
                 </select>
               </div>

@@ -135,15 +135,15 @@ const clanList = [
   {
     name: "Fūma",
     village: "Kazesuna",
-    description: "Clã nômade conhecido por armas giratórias e técnicas de vento. Possuem uma tradição de guerreiros independentes.",
+    description: "Clã de mercenários com habilidades de rastreamento e armas. Conhecidos por suas lâminas e precisão.",
     passive: "Proficiência com armas e ferramentas ninjas. Pode iniciar com o elemento Fūton como seu elemento principal caso queira.",
-    bonuses: { AGI: 1 }
+    bonuses: { AGI: 2 }
   },
   {
     name: "Hōzuki",
     village: "Kiri",
     description: "Clã que domina a técnica de liquefação corporal, tornando-se água para desviar de ataques. Afinidade natural com Suiton.",
-    passive: "Pode tornar-se líquido por 1 turno para desviar. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
+    passive: "Pode tornar-se Líquido. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
     bonuses: { NIN: 1 }
   },
   {
@@ -192,8 +192,8 @@ const clanList = [
     name: "Bōsō",
     village: "Kumo",
     description: "Clã de rastreadores de Kumogakure que utilizam sensores de chakra de longo alcance. Podem detectar inimigos a quilômetros de distância.",
-    passive: "Detecta inimigos escondidos em um raio amplo.",
-    bonuses: { GEN: 2 }
+    passive: "Ganha mais EXP do que o normal. Consegue detectar inimigos em um raio amplo.",
+    bonuses: { NIN: 2 }
   },
   {
     name: "Raijin",
@@ -213,7 +213,7 @@ const clanList = [
     name: "Kamizuru",
     village: "Iwa",
     description: "Clã de Iwagakure que utiliza abelhas ninja em combate. Mestres do rastreamento e controle de enxames.",
-    passive: "Consegue criar jutsus envolvendo suas abelhas",
+    passive: "Consegue criar jutsus envolvendo suas abelhas.",
     bonuses: { NIN: 2 }
   },
   {
@@ -314,6 +314,65 @@ function formatBonuses(bonuses) {
   return bonusList.join(", ") || "Nenhum";
 }
 
+const passiveKeywordColors = {
+  "Katon": "#e85d32",
+  "Suiton": "#3a8fd4",
+  "Fūton": "#5aa85a",
+  "Doton": "#a0855b",
+  "Raiton": "#cf9b2e",
+  "Sharingan": "#e83232",
+  "Byakugan": "#e0e0e0",
+  "Ketsuryūgan": "#8b0000",
+  "Mokuton": "#4caf50",
+  "Shikotsumyaku": "#d4c5a9",
+  "Jūryoku": "#8b7355",
+  "Jinton": "#b8860b",
+  "Hyōton": "#a8d8ea",
+  "Fūinjutsu": "#9b59b6",
+  "Taijutsu": "#2ecc71",
+  "Ninjutsu": "#e87532",
+  "Genjutsu": "#9b59b6",
+  "Sombras": "#4a4a6a",
+  "Sombra": "#4a4a6a",
+  "Areia": "#c2a87d",
+  "Insetos": "#6b8e23",
+  "Marionetes": "#8b7355",
+  "Corporal": "#cd853f",
+  "Oito Portões": "#2ecc71",
+  "Portões": "#2ecc71",
+  "Canino": "#8b7355",
+  "Cachorro": "#8b7355",
+  "Fumaça": "#a0a0a0",
+  "Médicas": "#4caf50",
+  "medicina": "#4caf50",
+  "Ossos": "#d4c5a9",
+  "EXP": "#f1c40f",
+  "Seven Heavens": "#3a8fd4",
+  "Congelar": "#a8d8ea",
+  "Venenos": "#9b59b6",
+  "Abelhas": "#e85d32",
+  "Minerais": "#808080",
+  "Gravidade": "#9b59b6",
+  "Golens": "#a0855b",
+  "Líquido": "#3a8fd4",
+  "Relâmpago": "#f1c40f",
+  "Raio": "#808080"
+};
+
+function highlightPassive(text) {
+  let result = text;
+  const sorted = Object.keys(passiveKeywordColors).sort((a, b) => b.length - a.length);
+  for (const keyword of sorted) {
+    const color = passiveKeywordColors[keyword];
+    const regex = new RegExp(`\\b(${keyword})\\b`, "gi");
+    result = result.replace(regex, (match) => {
+      const capitalized = match.charAt(0).toUpperCase() + match.slice(1);
+      return `<span style="color: ${color}; font-weight: 600;">${capitalized}</span>`;
+    });
+  }
+  return result;
+}
+
 function renderClanList(filter = "Konoha") {
   const list = document.querySelector("#clan-list");
   if (!list) return;
@@ -341,7 +400,7 @@ function renderClanList(filter = "Konoha") {
         <p class="clan-card-description">${clan.description}</p>
 
         <div class="clan-card-passive">
-          <strong>Passiva:</strong> ${clan.passive}
+          <strong>Passiva:</strong> ${highlightPassive(clan.passive)}
         </div>
 
         <div class="clan-card-bonuses">

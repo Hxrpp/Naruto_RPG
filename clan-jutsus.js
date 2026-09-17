@@ -362,6 +362,44 @@ const clanColors = {
   "Chinoike": "#8b0000"
 };
 
+const keywordColors = {
+  "Katon": "#e85d32",
+  "Suiton": "#3a8fd4",
+  "Fūton": "#5aa85a",
+  "Doton": "#a0855b",
+  "Raiton": "#cf9b2e",
+  "Sombras": "#4a4a6a",
+  "Sombra": "#4a4a6a",
+  "Areia": "#c2a87d",
+  "Insetos": "#6b8e23",
+  "Marionete": "#8b7355",
+  "Mental": "#9b59b6",
+  "Corporal": "#cd853f",
+  "Explosão": "#e85d32",
+  "Selamento": "#9b59b6",
+  "Lâminas": "#c0c0c0",
+  "Veneno": "#6b8e23",
+  "Elétricidade": "#cf9b2e",
+  "Fūton": "#5aa85a",
+  "Ossos": "#d4c5a9"
+};
+
+function highlightKeywords(text) {
+  let result = text;
+  const sorted = Object.keys(keywordColors).sort((a, b) => b.length - a.length);
+  for (const keyword of sorted) {
+    const color = keywordColors[keyword];
+    const regex = new RegExp(`\\b(${keyword})\\b`, "gi");
+    result = result.replace(regex, (match) => {
+      const capitalized = match.charAt(0).toUpperCase() + match.slice(1);
+      return `<span style="color: ${color}; font-weight: 600;">${capitalized}</span>`;
+    });
+  }
+  return result;
+}
+  return result;
+}
+
 function renderClanJutsuList(filter = "all") {
   const list = document.querySelector("#clan-jutsu-list");
   if (!list) return;
@@ -411,7 +449,7 @@ function renderClanJutsuList(filter = "all") {
           </div>
         </div>
 
-        <p class="jutsu-description">${jutsu.description}</p>
+        <p class="jutsu-description">${highlightKeywords(jutsu.description)}</p>
       </div>
     `;
   }).join("");

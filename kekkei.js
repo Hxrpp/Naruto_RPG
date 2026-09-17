@@ -134,20 +134,31 @@ function renderElementKekkei() {
     "Raiton": "#d4a83a"
   };
 
+  const kekkeiColors = {
+    "Shakuton": "#e85d32",
+    "Yōton": "#d44a1a",
+    "Futton": "#b0c4de",
+    "Ranton": "#4169e1",
+    "Jiton": "#708090",
+    "Hyōton": "#a8d8ea",
+    "Bakuton": "#b22222",
+    "Deiton": "#8b6914",
+    "Mokuton": "#4caf50",
+    "Jinton": "#daa520"
+  };
+
   list.innerHTML = elementKekkei.map((kekkei) => {
-    const colors = kekkei.elements.map((el) => elementColors[el] || "#9b7ed8");
-    const gradient = colors.length > 2
-      ? `linear-gradient(135deg, ${colors[0]}33, ${colors[1]}33, ${colors[2]}33)`
-      : `linear-gradient(135deg, ${colors[0]}33, ${colors[1]}33)`;
+    const color = kekkeiColors[kekkei.name] || "#9b7ed8";
+    const gradient = `linear-gradient(135deg, ${color}33, ${color}11)`;
     const clanRestriction = kekkei.clanRestriction
       ? `<span class="clan-restriction-badge">${kekkei.clanRestriction}</span>`
       : "";
 
     return `
-      <div class="kekkei-card element-card" style="border-left-color: ${colors[0]}; background: ${gradient};">
+      <div class="kekkei-card element-card" style="border-left-color: ${color}; background: ${gradient};">
         <div class="kekkei-header">
           <div class="kekkei-title">
-            <h3>${kekkei.name}</h3>
+            <h3 style="color: ${color};">${kekkei.name}</h3>
             <span class="kekkei-name-en">${kekkei.nameEN}</span>
             ${clanRestriction}
           </div>

@@ -23,6 +23,8 @@ function saveCharacterData() {
       name: document.querySelector("#character-name").value,
       player: document.querySelector("#player-name").value,
       village: document.querySelector("#village").value,
+      villageDisplay: villageDisplay.innerHTML,
+      villageHasResult: villageDisplay.classList.contains("result"),
       clan: document.querySelector("#clan").value,
       clanDisplay: document.querySelector("#clan-display").innerHTML,
       clanHasResult: document.querySelector("#clan-display").classList.contains("result"),
@@ -72,6 +74,11 @@ function loadCharacterData() {
 
     if (data.village) {
       document.querySelector("#village").value = data.village;
+      villageManuelSelect.value = data.village;
+      if (data.villageDisplay) {
+        const displayName = villageDisplayNameMap[data.village] || data.village;
+        setRouletteResult(villageDisplay, displayName);
+      }
       populateClanSelect();
       updateClanSpinState();
     }
@@ -300,13 +307,13 @@ const clans = [
     description: "Clã nômade conhecido por armas giratórias e técnicas de vento. Possuem uma tradição de guerreiros independentes.",
     passive: "Proficiência com armas e ferramentas ninjas. Pode iniciar com o elemento Fūton como seu elemento principal caso queira.",
     techniques: "Fūma Shuriken, Katon, Fūton: Kazekiri no Jutsu.",
-    bonuses: { AGI: 1 }
+    bonuses: { AGI: 2 }
   },
   {
     name: "Hōzuki",
     village: "Kiri",
     description: "Clã que domina a técnica de liquefação corporal, tornando-se água para desviar de ataques. Afinidade natural com Suiton.",
-    passive: "Pode tornar-se líquido por 1 turno para desviar. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
+    passive: "Pode tornar-se Líquido. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
     techniques: "Suika no Jutsu (Liquefação), Hydrification, Suiton: Suiryūdan.",
     bonuses: { NIN: 1 }
   },
@@ -362,9 +369,9 @@ const clans = [
     name: "Bōsō",
     village: "Kumo",
     description: "Clã de rastreadores de Kumogakure que utilizam sensores de chakra de longo alcance. Podem detectar inimigos a quilômetros de distância.",
-    passive: "Detecta inimigos escondidos em um raio amplo.",
+    passive: "Ganha mais EXP do que o normal. Consegue detectar inimigos em um raio amplo.",
     techniques: "Sensing Technique, Thunder Pulse Detection, Cloud Track.",
-    bonuses: { GEN: 2 }
+    bonuses: { NIN: 2 }
   },
   {
     name: "Raijin",
@@ -378,7 +385,7 @@ const clans = [
     name: "Kamizuru",
     village: "Iwa",
     description: "Clã de Iwagakure que utiliza abelhas ninja em combate. Mestres do rastreamento e controle de enxames.",
-    passive: "Consegue criar jutsus envolvendo suas abelhas",
+    passive: "Consegue criar jutsus envolvendo suas abelhas.",
     techniques: "Kumogakure no Jutsu, Bee Summoning, Swarm Attack.",
     bonuses: { NIN: 2 }
   },
@@ -563,6 +570,9 @@ const villageSymbols = {
 };
 
 const villageSelect = document.querySelector("#village");
+const villageDisplay = document.querySelector("#village-display");
+const spinVillageButton = document.querySelector("#spin-village");
+const villageManuelSelect = document.querySelector("#village-select");
 const clanSelect = document.querySelector("#clan");
 const clanDisplay = document.querySelector("#clan-display");
 const spinClanButton = document.querySelector("#spin-clan");
@@ -733,6 +743,7 @@ function spinRoulette(displayElement, hiddenInput, options, callback) {
     return;
   }
 
+  spinVillageButton.disabled = true;
   spinClanButton.disabled = true;
   spinElementButton.disabled = true;
   spinElement2Button.disabled = true;
@@ -753,6 +764,7 @@ function spinRoulette(displayElement, hiddenInput, options, callback) {
       displayElement.classList.remove("spinning");
       displayElement.classList.add("result");
       hiddenInput.value = finalOption;
+      spinVillageButton.disabled = false;
       updateClanSpinState();
       spinElementButton.disabled = false;
       spinElement2Button.disabled = !elementSelect.value;
@@ -888,7 +900,10 @@ function updateKekkeiDisplay() {
 }
 
 function updateClanSpinState() {
-  spinClanButton.disabled = !villageSelect.value;
+  const hasVillage = !!villageSelect.value;
+  spinClanButton.disabled = !hasVillage;
+  clanManuelSelect.disabled = !hasVillage;
+  clanDisplay.classList.toggle("disabled", !hasVillage);
 }
 
 function spinElement2() {
@@ -909,6 +924,38 @@ function spinElement2() {
   spinRoulette(element2Display, element2Select, fullOptions, (selected) => {
     element2ManuelSelect.value = selected;
     updateKekkeiDisplay();
+  });
+}
+
+const allVillages = ["Konoha", "Suna", "Kiri", "Kumo", "Iwa"];
+
+const villageValueMap = {
+  "Konoha": "Konoha",
+  "Suna": "Kazesuna",
+  "Kiri": "Kiri",
+  "Kumo": "Kumo",
+  "Iwa": "Iwa"
+};
+
+const villageDisplayNameMap = {
+  "Konoha": "Konoha",
+  "Kazesuna": "Suna",
+  "Kiri": "Kiri",
+  "Kumo": "Kumo",
+  "Iwa": "Iwa"
+};
+
+function spinVillage() {
+  spinRoulette(villageDisplay, villageSelect, allVillages, (selectedDisplay) => {
+    const actualValue = villageValueMap[selectedDisplay] || selectedDisplay;
+    villageSelect.value = actualValue;
+    villageManuelSelect.value = actualValue;
+    clanDisplay.innerHTML = `<span class="roulette-placeholder">Escolha sua vila primeiro</span>`;
+    clanDisplay.classList.remove("result", "spinning");
+    clanSelect.value = "";
+    clanManuelSelect.value = "";
+    populateClanSelect(actualValue);
+    updateClanSpinState();
   });
 }
 
@@ -1878,6 +1925,9 @@ function resetForm() {
   updateResources();
   removeImage();
 
+  villageDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+  villageDisplay.classList.remove("result", "spinning");
+  villageManuelSelect.value = "";
   clanDisplay.innerHTML = `<span class="roulette-placeholder">Escolha sua vila primeiro</span>`;
   clanDisplay.classList.remove("result", "spinning");
   clanSelect.value = "";
@@ -1909,6 +1959,14 @@ document.querySelectorAll(".decrease").forEach((button) => {
 
 villageSelect.addEventListener("change", () => {
   if (isLoading) return;
+  const village = villageSelect.value;
+  if (village) {
+    const displayName = villageDisplayNameMap[village] || village;
+    setRouletteResult(villageDisplay, displayName);
+  } else {
+    villageDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+    villageDisplay.classList.remove("result");
+  }
   clanDisplay.innerHTML = `<span class="roulette-placeholder">Escolha sua vila primeiro</span>`;
   clanDisplay.classList.remove("result", "spinning");
   clanSelect.value = "";
@@ -1917,6 +1975,32 @@ villageSelect.addEventListener("change", () => {
   updateClanSpinState();
   updateKekkeiSection();
   saveCharacterData();
+});
+
+villageDisplay.addEventListener("click", () => {
+  villageManuelSelect.classList.toggle("open");
+});
+
+spinVillageButton.addEventListener("click", spinVillage);
+
+villageManuelSelect.addEventListener("change", () => {
+  if (isLoading) return;
+  const selected = villageManuelSelect.value;
+  villageSelect.value = selected;
+  if (selected) {
+    const displayName = villageDisplayNameMap[selected] || selected;
+    setRouletteResult(villageDisplay, displayName);
+  } else {
+    villageDisplay.innerHTML = `<span class="roulette-placeholder">Gire para descobrir</span>`;
+    villageDisplay.classList.remove("result");
+  }
+  clanDisplay.innerHTML = `<span class="roulette-placeholder">Escolha sua vila primeiro</span>`;
+  clanDisplay.classList.remove("result", "spinning");
+  clanSelect.value = "";
+  clanManuelSelect.value = "";
+  populateClanSelect();
+  updateClanSpinState();
+  updateKekkeiSection();
 });
 
 document.querySelectorAll(".rank-btn").forEach((button) => {

@@ -32,10 +32,7 @@ body {
   color: var(--text);
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 
-  background:
-    radial-gradient(circle at 15% 10%, rgba(232, 117, 50, 0.13), transparent 25%),
-    radial-gradient(circle at 85% 90%, rgba(75, 154, 203, 0.12), transparent 30%),
-    linear-gradient(135deg, #0c1018, #182333 50%, #10131c);
+  background: #0c1018;
 }
 
 body::before {
@@ -43,7 +40,7 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.12;
+  opacity: 0;
   background-image:
     linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
     linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%);
