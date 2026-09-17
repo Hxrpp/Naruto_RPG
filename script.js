@@ -249,7 +249,7 @@ const clans = [
   {
     name: "Haruno",
     village: "Konoha",
-    description: "Clã de médicos ninja de Konoha, conhecido por seu conhecimento em técnicas médicas e selamento. Membros possuem habilidades curativas e de suporte.",
+    description: "Conhecido por seu conhecimento em técnicas médicas e selamento. Membros possuem habilidades curativas e de suporte.",
     passive: "Proficiência em técnicas médicas.",
     techniques: "Shannaro, Sakura no Sōsen, Haruno Style: Cherry Blossa Press.",
     bonuses: { CC: 2 }

@@ -93,7 +93,7 @@ const clanList = [
   {
     name: "Haruno",
     village: "Konoha",
-    description: "Clã de médicos ninja e谷间a de Konoha, conhecido por seu conhecimento em técnicas médicas e selamento. Membros possuem habilidades curativas e de suporte.",
+    description: "Conhecido por seu conhecimento em técnicas médicas e selamento. Membros possuem habilidades curativas e de suporte.",
     passive: "Proficiência em técnicas médicas.",
     bonuses: { CC: 2 }
   },

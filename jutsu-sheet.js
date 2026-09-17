@@ -3,7 +3,7 @@ const rankExp = {
   C: 60,
   B: 100,
   A: 150,
-  S: 220
+  S: 200
 };
 
 const typeExpModifier = {
@@ -14,6 +14,54 @@ const typeExpModifier = {
   "Fūinjutsu": 1.2,
   "Subjutsu": 1.1,
   "Kekkei Genkai": 1.5
+};
+
+const typeExpTable = {
+  "D": {
+    "Ninjutsu": 30,
+    "Genjutsu": 30,
+    "Taijutsu": 20,
+    "Kenjutsu": 30,
+    "Fūinjutsu": 40,
+    "Subjutsu": 30,
+    "Kekkei Genkai": 50
+  },
+  "C": {
+    "Ninjutsu": 60,
+    "Genjutsu": 60,
+    "Taijutsu": 40,
+    "Kenjutsu": 50,
+    "Fūinjutsu": 70,
+    "Subjutsu": 70,
+    "Kekkei Genkai": 90
+  },
+  "B": {
+    "Ninjutsu": 100,
+    "Genjutsu": 100,
+    "Taijutsu": 70,
+    "Kenjutsu": 90,
+    "Fūinjutsu": 120,
+    "Subjutsu": 110,
+    "Kekkei Genkai": 150
+  },
+  "A": {
+    "Ninjutsu": 150,
+    "Genjutsu": 150,
+    "Taijutsu": 100,
+    "Kenjutsu": 130,
+    "Fūinjutsu": 180,
+    "Subjutsu": 160,
+    "Kekkei Genkai": 220
+  },
+  "S": {
+    "Ninjutsu": 200,
+    "Genjutsu": 200,
+    "Taijutsu": 140,
+    "Kenjutsu": 180,
+    "Fūinjutsu": 240,
+    "Subjutsu": 220,
+    "Kekkei Genkai": 300
+  }
 };
 
 let isLoading = false;
@@ -38,10 +86,8 @@ function selectRank(rank) {
 function updateExpDisplay() {
   const rank = rankInput.value;
   const type = typeSelect.value;
-  const baseExp = rankExp[rank] || 0;
-  const modifier = typeExpModifier[type] || 1.0;
-  const finalExp = Math.round(baseExp * modifier);
-  expDisplay.textContent = finalExp;
+  const exp = typeExpTable[rank]?.[type] || 0;
+  expDisplay.textContent = exp;
 }
 
 function saveJutsuData() {
@@ -117,7 +163,7 @@ function exportJutsuSheet() {
     user: document.querySelector("#jutsu-user").value.trim(),
     rank: rankInput.value,
     type: typeSelect.value,
-    exp: rankExp[rankInput.value] || 0,
+    exp: typeExpTable[rankInput.value]?.[typeSelect.value] || 0,
     description: document.querySelector("#jutsu-description").value.trim(),
     notes: document.querySelector("#jutsu-notes").value.trim()
   };
