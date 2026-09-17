@@ -17,7 +17,7 @@ const clanList = [
     name: "Senju",
     village: "Konoha",
     description: "Clã fundador de Konohagakure, conhecido como 'os que possuem todas as habilidades'. Versáteis em ninjutsu, taijutsu e genjutsu, com afinidade especial pela madeira.",
-    passive: "Ganha mais EXP do que o normal. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
+    passive: "Ganha mais EXP do que o normal. Pode iniciar com o elemento Suiton como seu elemento principal caso queira. Caso consiga os elementos Suiton e Doton, obterá o kekkei genkai Mokuton.",
     bonuses: { CC: 2 }
   },
   {
@@ -91,11 +91,32 @@ const clanList = [
     bonuses: { GEN: 2 }
   },
   {
-    name: "Kazekage",
+    name: "Haruno",
+    village: "Konoha",
+    description: "Clã de médicos ninja e谷间a de Konoha, conhecido por seu conhecimento em técnicas médicas e selamento. Membros possuem habilidades curativas e de suporte.",
+    passive: "Proficiência em técnicas médicas.",
+    bonuses: { CC: 2 }
+  },
+  {
+    name: "Lee",
+    village: "Konoha",
+    description: "Clã de guerreiros taijutsu de Konoha, seguidores do caminho do esforço e da determinação. Membros não dominam ninjutsu nem genjutsu, mas compensam com taijutsu sobre-humano.",
+    passive: "Proficiência em taijutsu. Consegue aprender técnicas de abertura dos oito portões.",
+    bonuses: { FOR: 2 }
+  },
+  {
+    name: "Kazesuna",
     village: "Kazesuna",
     description: "Clã real de Sunagakure, ligado diretamente aos Kazekage. Possui domínio absoluto sobre a areia, que se move por conta própria para proteger seu mestre.",
     passive: "Consegue criar jutsus envolvendo a manipulação de areia.",
     bonuses: { NIN: 1 }
+  },
+  {
+    name: "Fae",
+    village: "Kazesuna",
+    description: "Clã de guerreiros corpo a corpo de Sunagakure, conhecidos por sua força física brutal e técnicas de taijutsu devastadoras. Membros do clã Fae possuem corpos resistentes e golpes capazes de esmagar rochas.",
+    passive: "Proficiência em taijutsu. Podem aprender a técnica Seven Heavens.",
+    bonuses: { FOR: 2 }
   },
   {
     name: "Shirogane",
@@ -145,13 +166,6 @@ const clanList = [
     description: "Clã ancestral que manipula os ossos do próprio corpo, tornando-os mais duros que aço. Origem dos lendários Otsutsuki.",
     passive: "Ganha mais EXP do que o normal. Possui a Kekkei Genkai Shikotsumyaku. Consegue criar jutsus envolvendo seus ossos.",
     bonuses: { FOR: 1, AGI: 1 }
-  },
-  {
-    name: "Karatachi",
-    village: "Kiri",
-    description: "Família ligada à política e ao governo de Kirigakure. Membros ocupam posições de liderança e comando militar.",
-    passive: "Pode buffar status de aliados por um curto período de tempo. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
-    bonuses: { GEN: 1 }
   },
   {
     name: "Kurosuki",
@@ -222,6 +236,13 @@ const clanList = [
     description: "Clã de mineradores e ferreiros de Iwagakure que manipulam minerais e metais encontrados nas montanhas. Suas técnicas controlam o ferro e a pedra.",
     passive: "Ganha maix EXP que o normal. Consegue criar jutsus envolvendo manipulação de minerais. Pode iniciar com o elemento Doton como seu elemento principal caso queira",
     bonuses: { CC: 1, NIN: 1 }
+  },
+  {
+    name: "Shokyo",
+    village: "Iwa",
+    description: "Clã herdeiro da tradição do Tsuchikage, mestres absolutos do Doton e da manipulação de pedra. Seus membros carregam a sabedoria ancestral da terra e podem combinar elementos para criar a devastadora Jinton.",
+    passive: "Podem adquirir três afinidades de elementos. Possui o elemento Doton. Caso consiga os elementos Katon e Fūton, obterá o kekkei genkai Jinton.",
+    bonuses: { NIN: 2 }
   }
 ];
 
@@ -247,7 +268,10 @@ const clanColors = {
   "Shimura": "#c0c0c0",
   "Hatake": "#909090",
   "Kurama": "#9b59b6",
-  "Kazekage": "#d4a83a",
+  "Haruno": "#ff69b4",
+  "Lee": "#2ecc71",
+  "Kazesuna": "#d4a83a",
+  "Fae": "#cd853f",
   "Shirogane": "#5a5a5a",
   "Hōki": "#c9a227",
   "Fūma": "#2ecc71",
@@ -255,7 +279,6 @@ const clanColors = {
   "Hoshigaki": "#2980b9",
   "Yuki": "#a8d8ea",
   "Kaguya": "#f5f5dc",
-  "Karatachi": "#4a4a4a",
   "Kurosuki": "#8b0000",
   "Yotsuki": "#daa520",
   "Aemi": "#c0c0c0",
@@ -265,7 +288,8 @@ const clanColors = {
   "Kamizuru": "#f39c12",
   "Ganryū": "#8b7355",
   "Kōsetsu": "#a0522d",
-  "Tetsuban": "#696969"
+  "Tetsuban": "#696969",
+  "Shokyo": "#b8860b"
 };
 
 function formatBonuses(bonuses) {

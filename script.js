@@ -162,7 +162,7 @@ const clans = [
     name: "Senju",
     village: "Konoha",
     description: "Clã fundador de Konohagakure, conhecido como 'os que possuem todas as habilidades'. Versáteis em ninjutsu, taijutsu e genjutsu, com afinidade especial pela madeira.",
-    passive: "Ganha mais EXP do que o normal. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
+    passive: "Ganha mais EXP do que o normal. Pode iniciar com o elemento Suiton como seu elemento principal caso queira. Caso consiga os elementos Suiton e Doton, obterá o kekkei genkai Mokuton.",
     techniques: "Mokuton: Mokuryū no Jutsu, Ninjutsu variado, Taijutsu.",
     bonuses: { CC: 2 }
   },
@@ -247,12 +247,36 @@ const clans = [
     bonuses: { GEN: 2 }
   },
   {
-    name: "Kazekage",
+    name: "Haruno",
+    village: "Konoha",
+    description: "Clã de médicos ninja de Konoha, conhecido por seu conhecimento em técnicas médicas e selamento. Membros possuem habilidades curativas e de suporte.",
+    passive: "Proficiência em técnicas médicas.",
+    techniques: "Shannaro, Sakura no Sōsen, Haruno Style: Cherry Blossa Press.",
+    bonuses: { CC: 2 }
+  },
+  {
+    name: "Lee",
+    village: "Konoha",
+    description: "Clã de guerreiros taijutsu de Konoha, seguidores do caminho do esforço e da determinação. Membros não dominam ninjutsu nem genjutsu, mas compensam com taijutsu sobre-humano.",
+    passive: "Proficiência em taijutsu. Consegue aprender técnicas de abertura dos oito portões.",
+    techniques: "Oito Portões Interior, Konoha Senpū, Hachimon Tonkō.",
+    bonuses: { FOR: 2 }
+  },
+  {
+    name: "Kazesuna",
     village: "Kazesuna",
     description: "Clã real de Sunagakure, ligado diretamente aos Kazekage. Possui domínio absoluto sobre a areia, que se move por conta própria para proteger seu mestre. Inspirado no poder de Gaara e sua defesa automática.",
     passive: "Consegue criar jutsus envolvendo a manipulação de areia.",
     techniques: "Sabaku Kyū (Sepultamento de Areia), Sabaku Sō (Caixão de Areia), Sabaku Fuyu (Grande Sepultamento), Kajō no Tate.",
     bonuses: { NIN: 1 }
+  },
+  {
+    name: "Fae",
+    village: "Kazesuna",
+    description: "Clã de guerreiros corpo a corpo de Sunagakure, conhecidos por sua força física brutal e técnicas de taijutsu devastadoras. Membros do clã Fae possuem corpos resistentes e golpes capazes de esmagar rochas.",
+    passive: "Proficiência em taijutsu. Podem aprender a técnica Seven Heavens.",
+    techniques: "Taijutsu avançado, Golpe de Areia Palm, Soco Desertoro, Técnica do Punho Esmagador.",
+    bonuses: { FOR: 2 }
   },
   {
     name: "Shirogane",
@@ -309,14 +333,6 @@ const clans = [
     passive: "Ganha mais EXP do que o normal. Possui a Kekkei Genkai Shikotsumyaku. Consegue criar jutsus envolvendo seus ossos.",
     techniques: "Shikotsumyaku, Kikai Totsuka, Deer Skull Agony.",
     bonuses: { FOR: 1, AGI: 1 }
-  },
-  {
-    name: "Karatachi",
-    village: "Kiri",
-    description: "Família ligada à política e ao governo de Kirigakure. Membros ocupam posições de liderança e comando militar.",
-    passive: "Pode buffar status de aliados por um curto período de tempo. Pode iniciar com o elemento Suiton como seu elemento principal caso queira.",
-    techniques: "Táticas militares, manipulação política, combate corporal.",
-    bonuses: { GEN: 1 }
   },
   {
     name: "Kurosuki",
@@ -389,6 +405,14 @@ const clans = [
     passive: "Ganha maix EXP que o normal. Consegue criar jutsus envolvendo manipulação de minerais. Pode iniciar com o elemento Doton como seu elemento principal caso queira",
     techniques: "Doton: Iron Ore Control, Magnetic Release, Stone Chain.",
     bonuses: { CC: 1, NIN: 1 }
+  },
+  {
+    name: "Shokyo",
+    village: "Iwa",
+    description: "Clã herdeiro da tradição do Tsuchikage, mestres absolutos do Doton e da manipulação de pedra. Seus membros carregam a sabedoria ancestral da terra e podem combinar elementos para criar a devastadora Jinton.",
+    passive: "Podem adquirir três afinidades de elementos. Possui o elemento Doton. Caso consiga os elementos Katon e Fūton, obterá o kekkei genkai Jinton.",
+    techniques: "Doton: Yomi Numa, Doton: Doryūheki, Jinton: Genkai Hakuri no Jutsu.",
+    bonuses: { NIN: 2 }
   },
   {
     name: "Chinoike",
@@ -591,7 +615,13 @@ const kekkeiCombinations = {
   "Raiton+Suiton": "Ranton",
   "Suiton+Raiton": "Ranton",
   "Doton+Suiton": "Deiton",
-  "Suiton+Doton": "Deiton"
+  "Suiton+Doton": "Deiton",
+  "Katon+Fūton+Doton": "Jinton",
+  "Katon+Doton+Fūton": "Jinton",
+  "Fūton+Katon+Doton": "Jinton",
+  "Fūton+Doton+Katon": "Jinton",
+  "Doton+Katon+Fūton": "Jinton",
+  "Doton+Fūton+Katon": "Jinton"
 };
 
 const clanKekkeiMap = {
@@ -672,7 +702,8 @@ const kekkeiDescriptionMap = {
   Deiton: "Combinação de Doton e Suiton que cria lama para afundar oponentes em pântanos.",
   Mokuton: "Kekkei Genkai exclusiva do clã Senju — madeira viva com poder para construir, atacar e controlar bijūs.",
   Jūryoku: "Kekkei Genkai do clã Ganryū — capacidade de manipular a gravidade até certo nível.",
-  Shikotsumyaku: "Kekkei Genkai ancestral do clã Kaguya — manipulação dos ossos corporais como armas letais."
+  Shikotsumyaku: "Kekkei Genkai ancestral do clã Kaguya — manipulação dos ossos corporais como armas letais.",
+  Jinton: "Kekkei Genkai do clã Shokyo — combinação de Katon, Fūton e Doton que cria calor extremo capaz de desintegrar tudo."
 };
 
 const elementColors = {
@@ -829,12 +860,21 @@ function updateKekkeiDisplay() {
 
   const primary = elementSelect.value;
   const secondary = element2Select.value;
+  const isShokyo = clanSelect.value === "Shokyo";
 
   let kekkei = null;
   if (primary && secondary && secondary !== "Não Possui") {
     kekkei = getKekkeiGenkai(primary, secondary);
     if (kekkei === "Deiton" && clanSelect.value === "Senju") {
       kekkei = "Mokuton";
+    }
+  }
+
+  if (isShokyo && primary && secondary && secondary !== "Não Possui") {
+    const hasKaton = primary === "Katon" || secondary === "Katon";
+    const hasFūton = primary === "Fūton" || secondary === "Fūton";
+    if (hasKaton && hasFūton) {
+      kekkei = "Jinton";
     }
   }
 
@@ -1069,6 +1109,7 @@ function buildCharacterSheet() {
   const bonuses = getClanBonuses();
   const primaryElement = elementSelect.value;
   const secondaryElement = element2Select.value || "Não Possui";
+  const isShokyo = clanSelect.value === "Shokyo";
   const clanKekkei = getClanKekkei(clanSelect.value);
   let kekkeiGenkai = secondaryElement !== "Não Possui"
     ? getKekkeiGenkai(primaryElement, secondaryElement) || "Nenhum"
@@ -1080,6 +1121,16 @@ function buildCharacterSheet() {
     kekkeiGenkai = clanKekkei.name;
   }
 
+  let thirdElement = null;
+  if (isShokyo && secondaryElement !== "Não Possui") {
+    thirdElement = "Doton";
+    const hasKaton = primaryElement === "Katon" || secondaryElement === "Katon";
+    const hasFūton = primaryElement === "Fūton" || secondaryElement === "Fūton";
+    if (hasKaton && hasFūton) {
+      kekkeiGenkai = "Jinton";
+    }
+  }
+
   return {
     name: document.querySelector("#character-name").value.trim(),
     player: document.querySelector("#player-name").value.trim(),
@@ -1087,6 +1138,7 @@ function buildCharacterSheet() {
     clan: clanSelect.value,
     element: primaryElement,
     element2: secondaryElement,
+    thirdElement: thirdElement,
     rank: document.querySelector("#rank").value,
     kekkeiGenkai: kekkeiGenkai,
     clanKekkei: clanKekkei,
@@ -1692,6 +1744,12 @@ function exportCharacterSheet() {
               <strong>Elemento Secundário</strong>
               <span>${elementChipHtml(character.element2)}</span>
             </div>
+            ${character.thirdElement ? `
+            <div class="info-item">
+              <strong>Terceiro Elemento</strong>
+              <span>${elementChipHtml(character.thirdElement)}</span>
+            </div>
+            ` : ""}
             <div class="info-item">
               <strong>Patente</strong>
               <span>${escapeHtml(character.rank)}</span>

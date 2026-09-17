@@ -53,6 +53,13 @@ const elementKekkei = [
     elements: ["Suiton", "Doton"],
     description: "Kekkei Genkai exclusiva do clã Senju que combina elementos para criar madeira viva. O usuário pode construir estruturas, armas e até invocar criaturas de madeira com poder controlador de bijūs.",
     clanRestriction: "Senju"
+  },
+  {
+    name: "Jinton",
+    nameEN: "Poeira",
+    elements: ["Katon", "Fūton", "Doton"],
+    description: "Kekkei Genkai exclusiva do clã Shokyo que combina Katon, Fūton e Doton para criar calor extremo capaz de desintegrar matéria. Uma das técnicas mais devastadoras do mundo ninja.",
+    clanRestriction: "Shokyo"
   }
 ];
 
@@ -123,13 +130,15 @@ function renderElementKekkei() {
     "Katon": "#e85d32",
     "Suiton": "#3a8fd4",
     "Fūton": "#6abf6a",
-    "Dodon": "#a0855b",
+    "Doton": "#a0855b",
     "Raiton": "#d4a83a"
   };
 
   list.innerHTML = elementKekkei.map((kekkei) => {
     const colors = kekkei.elements.map((el) => elementColors[el] || "#9b7ed8");
-    const gradient = `linear-gradient(135deg, ${colors[0]}33, ${colors[1]}33)`;
+    const gradient = colors.length > 2
+      ? `linear-gradient(135deg, ${colors[0]}33, ${colors[1]}33, ${colors[2]}33)`
+      : `linear-gradient(135deg, ${colors[0]}33, ${colors[1]}33)`;
     const clanRestriction = kekkei.clanRestriction
       ? `<span class="clan-restriction-badge">${kekkei.clanRestriction}</span>`
       : "";
@@ -164,7 +173,8 @@ function renderDoujutsu() {
     "Hyūga": "#e0e0e0",
     "Chinoike": "#8b0000",
     "Ganryū": "#8b7355",
-    "Kaguya": "#d4c5a9"
+    "Kaguya": "#d4c5a9",
+    "Shokyo": "#b8860b"
   };
 
   list.innerHTML = doujutsuList.map((doujutsu) => {
