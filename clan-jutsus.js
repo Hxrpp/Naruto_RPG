@@ -362,7 +362,7 @@ const clanColors = {
   "Chinoike": "#8b0000"
 };
 
-const keywordColors = {
+const clanKeywordColors = {
   "Katon": "#e85d32",
   "Suiton": "#3a8fd4",
   "Fūton": "#5aa85a",
@@ -384,19 +384,17 @@ const keywordColors = {
   "Ossos": "#d4c5a9"
 };
 
-function highlightKeywords(text) {
+function highlightClanKeywords(text) {
   let result = text;
-  const sorted = Object.keys(keywordColors).sort((a, b) => b.length - a.length);
+  const sorted = Object.keys(clanKeywordColors).sort((a, b) => b.length - a.length);
   for (const keyword of sorted) {
-    const color = keywordColors[keyword];
+    const color = clanKeywordColors[keyword];
     const regex = new RegExp(`\\b(${keyword})\\b`, "gi");
     result = result.replace(regex, (match) => {
       const capitalized = match.charAt(0).toUpperCase() + match.slice(1);
       return `<span style="color: ${color}; font-weight: 600;">${capitalized}</span>`;
     });
   }
-  return result;
-}
   return result;
 }
 
@@ -449,7 +447,7 @@ function renderClanJutsuList(filter = "all") {
           </div>
         </div>
 
-        <p class="jutsu-description">${highlightKeywords(jutsu.description)}</p>
+        <p class="jutsu-description">${highlightClanKeywords(jutsu.description)}</p>
       </div>
     `;
   }).join("");

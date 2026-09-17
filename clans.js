@@ -356,7 +356,9 @@ const passiveKeywordColors = {
   "Golens": "#a0855b",
   "Líquido": "#3a8fd4",
   "Relâmpago": "#f1c40f",
-  "Raio": "#808080"
+  "Raio": "#808080",
+  "Elétricidade": "#f1c40f",
+  "eletricidade": "#f1c40f"
 };
 
 function highlightPassive(text) {
